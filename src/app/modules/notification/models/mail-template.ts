@@ -1,0 +1,2 @@
+export interface MailTemplate {
+}
