@@ -1,0 +1,75 @@
+<form [formGroup]="form"  fxLayout="column" fxLayoutGap="20px">
+  <pm-form-action  fxFlex
+                   (save)="onSave($event)"
+                   (add)="onAdd($event)"
+                   (edit)="onEdit($event)"
+                   (removes)="onRemoves($event)"
+                   (cancel)="onCancel($event)"
+                   (first)="onNavigate($event)"
+                   (previous)="onNavigate($event)"
+                   (next)="onNavigate($event)"
+                   (last)="onNavigate($event)"
+                   [listViewLink]="listViewLink"
+                   [form]="form"
+                   [isValidForm]="form.valid"
+                   [disable]="isDisable"
+                   [data]="jobInfo"
+                   [dataEntities]="jobInfoEntities"
+                   [title]="title"
+  ></pm-form-action>
+  <input type="hidden" formControlName="id" />
+  <div fxLayout="row" fxLayoutGap="10px" fxFlex>
+    <mat-card fxLayout="column" fxFlex class="mat-elevation-z15">
+      <mat-form-field  fxFlex>
+        <input type="text" matInput formControlName="jobName" placeholder="Libellé"/>
+        <mat-error *ngIf="required('jobName')" class="invalid-feedback">
+          <span *ngIf="required('jobName')">Le libellé  est obligatoire</span>
+        </mat-error>
+        <mat-error *ngIf="error && error.jobName"><span>{{error.jobName}}</span></mat-error>
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <input type="text" matInput formControlName="jobGroup" placeholder="Groupe"/>
+        <mat-error *ngIf="required('jobGroup')" class="invalid-feedback">
+          <span *ngIf="required('jobGroup')">Le group est  est obligatoire</span>
+        </mat-error>
+        <mat-error *ngIf="error && error.jobGroup"><span>{{error.jobGroup}}</span></mat-error>
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <input type="text" matInput formControlName="jobClass" placeholder="Classe"/>
+        <mat-error *ngIf="required('jobClass')" class="invalid-feedback">
+          <span *ngIf="required('jobClass')">La classe est  est obligatoire</span>
+        </mat-error>
+        <mat-error *ngIf="error && error.jobClass"><span>{{error.jobClass}}</span></mat-error>
+      </mat-form-field>
+    </mat-card>
+    <mat-card fxLayout="column" fxFlex class="mat-elevation-z15">
+      <p></p>
+      <p></p>
+      <mat-checkbox fxFlex labelPosition="after" formControlName="cronJob"> Expression Cron?</mat-checkbox>
+      <p></p>
+      <p></p>
+      <mat-form-field  fxFlex *ngIf="this.form.get('cronJob').value">
+        <input type="text" matInput formControlName="cronExpression" placeholder="Expression cron"/>
+        <mat-error *ngIf="required('cronExpression')" class="invalid-feedback">
+          <span *ngIf="required('cronExpression')">L'expression cron est obligatoire</span>
+        </mat-error>
+        <mat-error *ngIf="error && error.cronExpression"><span>{{error.cronExpression}}</span></mat-error>
+      </mat-form-field>
+      <mat-form-field  fxFlex *ngIf="!this.form.get('cronJob').value">
+        <input type="number" matInput formControlName="repeatTime" placeholder="Repeter tous les"/>
+        <mat-error *ngIf="required('repeatTime')" class="invalid-feedback">
+          <span *ngIf="required('repeatTime')">Le temps de reprise est obligatoire</span>
+        </mat-error>
+        <mat-error *ngIf="error && error.repeatTime"><span>{{error.repeatTime}}</span></mat-error>
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <mat-select formControlName="state" placeholder="Statut">
+          <mat-option *ngFor="let stateLabel of stateLabels"  [value]="getKey(stateLabel)"> <span>{{getLabel(stateLabel)}}</span> </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-card>
+
+  </div>
+</form>
+
+<div class="align-spinner-form"><mat-spinner [diameter]="50" *ngIf="loading"></mat-spinner></div>

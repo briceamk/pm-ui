@@ -1,0 +1,13 @@
+<pm-job-info-form
+  [jobInfo]="jobInfo$ | async"
+  [jobInfoEntities]="jobInfoEntities$ | async"
+  [loading]="loading$ | async"
+  [error]="error$ | async"
+  (create)="onCreate($event)"
+  (update)="onUpdate($event)"
+  (removes)="onRemoves($event)"
+  (navigate)="onNavigate($event)"
+>
+
+</pm-job-info-form>
+

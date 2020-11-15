@@ -1,0 +1,10 @@
+<pm-mail-template-form
+  [mailTemplate]="mailTemplate$ | async"
+  [mailTemplateEntities]="mailTemplateEntities$ | async"
+  (create)="onCreate($event)"
+  (update)="onUpdate($event)"
+  (removes)="onRemoves($event)"
+  (navigate)="onNavigate($event)"
+>
+
+</pm-mail-template-form>

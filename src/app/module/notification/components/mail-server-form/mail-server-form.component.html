@@ -1,0 +1,91 @@
+<form [formGroup]="form"  fxLayout="column" fxLayoutGap="20px">
+  <pm-form-action  fxFlex
+                   (save)="onSave($event)"
+                   (add)="onAdd($event)"
+                   (edit)="onEdit($event)"
+                   (removes)="onRemoves($event)"
+                   (cancel)="onCancel($event)"
+                   (first)="onNavigate($event)"
+                   (previous)="onNavigate($event)"
+                   (next)="onNavigate($event)"
+                   (last)="onNavigate($event)"
+                   [listViewLink]="listViewLink"
+                   [form]="form"
+                   [isValidForm]="form.valid"
+                   [disable]="isDisable"
+                   [data]="mailServer"
+                   [dataEntities]="mailServerEntities"
+                   [title]="title"
+  ></pm-form-action>
+  <input type="hidden" formControlName="id" />
+  <div fxLayout="row" fxLayoutGap="10px" fxFlex>
+    <mat-card fxLayout="column" fxFlex class="mat-elevation-z15">
+      <mat-form-field  fxFlex>
+        <input type="text" matInput formControlName="hostname" placeholder="Adresse du serveur"/>
+        <mat-error *ngIf="required('hostname')" class="invalid-feedback">
+          <span *ngIf="required('hostname')">L'adresse du serveur est obligatoire</span>
+        </mat-error>
+        <mat-error *ngIf="error && error.hostname"><span>{{error.hostname}}</span></mat-error>
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <input type="text" matInput formControlName="port" placeholder="Port"/>
+        <mat-error *ngIf="required('port')" class="invalid-feedback">
+          <span *ngIf="required('port')">Le port  est obligatoire</span>
+        </mat-error>
+        <mat-error *ngIf="error && error.port"><span>{{error.port}}</span></mat-error>
+      </mat-form-field>
+    </mat-card>
+    <mat-card fxLayout="column" fxFlex class="mat-elevation-z15">
+      <p></p>
+      <p></p>
+      <mat-checkbox fxFlex labelPosition="after" formControlName="enableSSL"> Activer SSL</mat-checkbox>
+      <p></p>
+      <p></p>
+      <mat-checkbox fxFlex labelPosition="after" formControlName="enableAuth"> Activer l'authentification</mat-checkbox>
+    </mat-card>
+
+  </div>
+  <div fxLayout="row" fxFlex fxLayoutGap="10px">
+    <mat-card fxFlex fxLayout="column" class="mat-elevation-z15" >
+        <mat-form-field  fxFlex>
+          <mat-select  formControlName="type" placeholder="Type">
+            <mat-option *ngFor="let typeLabel of typeLabels"  [value]="getKey(typeLabel)"> <span>{{getLabel(typeLabel)}}</span> </mat-option>
+          </mat-select>
+          <mat-error *ngIf="required('type')" class="invalid-feedback">
+            <span *ngIf="required('type')">Le type est obligatoire</span>
+          </mat-error>
+          <mat-error *ngIf="error && error.type"><span>{{error.type}}</span></mat-error>
+        </mat-form-field>
+        <mat-form-field  fxFlex>
+          <mat-select  formControlName="state" placeholder="Statut">
+            <mat-option *ngFor="let stateLabel of stateLabels"  [value]="getKey(stateLabel)"> <span>{{getLabel(stateLabel)}}</span> </mat-option>
+          </mat-select>
+        </mat-form-field>
+    </mat-card>
+    <mat-card fxLayout="column" fxFlex class="mat-elevation-z15" >
+      <mat-form-field  fxFlex>
+        <input type="text" matInput formControlName="username" placeholder="Login" />
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <input
+          [type]="hide ? 'password' : 'text'"
+          matInput
+          placeholder="Mot de passe"
+          formControlName="password"
+        /><button
+        mat-icon-button
+        matSuffix
+        (click)="hide = !hide"
+        matTooltip="Afficher le mot de passe"
+        matTooltipPosition="right"
+        type="button"
+        color="primary"
+        *ngIf="showHideButton"
+      >
+        <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      </mat-form-field>
+    </mat-card>
+  </div>
+</form>
+<div class="align-spinner-form"><mat-spinner [diameter]="50" *ngIf="loading"></mat-spinner></div>

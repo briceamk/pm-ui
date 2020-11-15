@@ -1,0 +1,8 @@
+<pm-sign-up
+  [loggedIn]="loggedIn$ | async"
+  [loading]="loading$ | async"
+  [error]="error$ | async"
+  (signUp)="onSignUp($event)"
+>
+
+</pm-sign-up>

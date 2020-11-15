@@ -1,1 +1,39 @@
-<p>header works!</p>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <button mat-icon-button (click)="doToggleSideBar()">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <span>PM</span>
+
+    <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+      <ul fxLayout="row" fxLayoutGap="20px">
+        <li>
+          <button mat-icon-button>
+            <mat-icon>settings</mat-icon>
+          </button>
+        </li>
+        <li>
+          <button mat-icon-button>
+            <mat-icon>help_outline</mat-icon>
+          </button>
+        </li>
+        <li>
+          <button mat-icon-button [matMenuTriggerFor]="person_menu" aria-label="Example icon-button with a menu">
+            <mat-icon>person_outline</mat-icon>
+          </button>
+          <mat-menu #person_menu="matMenu">
+            <button mat-menu-item>
+              <mat-icon>notifications</mat-icon>
+              <span>Notifications</span>
+            </button>
+            <button mat-menu-item (click)="doSignOut()">
+              <mat-icon>exit_to_app</mat-icon>
+              <span>Se deconnecter</span>
+            </button>
+          </mat-menu>
+        </li>
+      </ul>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>

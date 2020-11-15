@@ -1,0 +1,12 @@
+<pm-mail-server-form
+  [mailServer]="mailServer$ | async"
+  [mailServerEntities]="mailServerEntities$ | async"
+  [loading]="loading$ | async"
+  [error]="error$ | async"
+  (create)="onCreate($event)"
+  (update)="onUpdate($event)"
+  (removes)="onRemoves($event)"
+  (navigate)="onNavigate($event)"
+>
+
+</pm-mail-server-form>

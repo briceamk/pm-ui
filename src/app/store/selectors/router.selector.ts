@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
-import * as fromRouter from '../reducers';
+import * as fromRouter from '@store/reducers';
 
 export const selectRouterState = createSelector(
   fromRouter.selectRootRouterState,

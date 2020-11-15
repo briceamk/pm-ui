@@ -1,0 +1,13 @@
+<pm-catalog-form
+  [catalog]="catalog$ | async"
+  [catalogs]="catalogs$ | async"
+  [catalogEntities]="catalogEntities$ | async"
+  [loading]="loading$ | async"
+  [error]="error$ | async"
+  (create)="onCreate($event)"
+  (update)="onUpdate($event)"
+  (removes)="onRemoves($event)"
+  (navigate)="onNavigate($event)"
+>
+
+</pm-catalog-form>

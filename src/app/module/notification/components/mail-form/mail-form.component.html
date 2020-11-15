@@ -1,0 +1,196 @@
+<form [formGroup]="form" fxLayout="column" fxLayoutGap="20px">
+  <pm-form-action
+    fxFlex
+    (save)="onSave($event)"
+    (add)="onAdd($event)"
+    (edit)="onEdit($event)"
+    (removes)="onRemoves($event)"
+    (cancel)="onCancel($event)"
+    (first)="onNavigate($event)"
+    (previous)="onNavigate($event)"
+    (next)="onNavigate($event)"
+    (last)="onNavigate($event)"
+    [listViewLink]="listViewLink"
+    [form]="form"
+    [isValidForm]="form.valid"
+    [disable]="isDisable"
+    [data]="mail"
+    [dataEntities]="mailEntities"
+    [hideAdd]="true"
+    [title]="title"
+  ></pm-form-action>
+
+  <input type="hidden" formControlName="id" />
+
+  <mat-card fxLayout="row" fxLayoutGap="10px" class="mat-elevation-z15">
+    <mat-form-field fxFlex>
+      <input
+        type="text"
+        matInput
+        formControlName="subject"
+        placeholder="Objet"
+      />
+      <mat-error *ngIf="required('subject')" class="invalid-feedback">
+        <span *ngIf="required('subject')">L'objet est obligatoire</span>
+      </mat-error>
+      <mat-error *ngIf="error && error.subject"
+        ><span>{{ error.subject }}</span></mat-error
+      >
+    </mat-form-field>
+  </mat-card>
+
+  <div fxLayout="row" fxLayoutGap="10px">
+    <mat-card
+      fxLayout="column"
+      fxLayoutGap="10px"
+      fxFlex
+      class="mat-elevation-z15"
+    >
+      <mat-form-field fxFlex>
+        <input
+          type="text"
+          matInput
+          formControlName="emailTo"
+          placeholder="Destinataire"
+        />
+        <mat-error *ngIf="required('emailTo')" class="invalid-feedback">
+          <span *ngIf="required('emailTo')"
+            >Le destinataire est obligatoire</span
+          >
+        </mat-error>
+        <mat-error *ngIf="error && error.emailTo"
+          ><span>{{ error.emailTo }}</span></mat-error
+        >
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <input
+          type="text"
+          matInput
+          formControlName="emailCc"
+          placeholder="Copie"
+        />
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <input
+          type="text"
+          matInput
+          formControlName="emailCci"
+          placeholder="Copie cahé"
+        />
+      </mat-form-field>
+    </mat-card>
+    <mat-card
+      fxLayout="column"
+      fxLayoutGap="10px"
+      fxFlex
+      class="mat-elevation-z15"
+    >
+      <mat-form-field fxFlex>
+        <input
+          type="text"
+          matInput
+          formControlName="relatedClass"
+          placeholder="Class"
+        />
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <input
+          type="text"
+          matInput
+          formControlName="relatedObjectId"
+          placeholder="Id objet"
+        />
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <input
+          type="text"
+          matInput
+          formControlName="reference"
+          placeholder="Reference"
+        />
+      </mat-form-field>
+    </mat-card>
+  </div>
+
+  <div fxLayout="column" fxLayoutGap="10px">
+    <mat-card
+      fxLayout="row"
+      fxLayoutGap="10px"
+      fxFlex
+      class="mat-elevation-z15"
+    >
+      <mat-form-field fxFlex>
+        <mat-placeholder>Date de création</mat-placeholder>
+        <mat-datetimepicker-toggle
+          [for]="creationDatePicker"
+          matSuffix
+        ></mat-datetimepicker-toggle>
+        <mat-datetimepicker
+          #creationDatePicker
+          type="datetime"
+          openOnFocus="true"
+          timeInterval="5"
+        >
+        </mat-datetimepicker>
+        <input
+          matInput
+          formControlName="creationDate"
+          [matDatetimepicker]="creationDatePicker"
+          autocomplete="false"
+        />
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-placeholder>Date d'envoie</mat-placeholder>
+        <mat-datetimepicker-toggle
+          [for]="sendDatePicker"
+          matSuffix
+        ></mat-datetimepicker-toggle>
+        <mat-datetimepicker
+          #sendDatePicker
+          type="datetime"
+          openOnFocus="true"
+          timeInterval="5"
+        >
+        </mat-datetimepicker>
+        <input
+          matInput
+          formControlName="sendDate"
+          [matDatetimepicker]="sendDatePicker"
+          autocomplete="false"
+        />
+      </mat-form-field>
+      <!-- <mat-form-field fxFlex>
+      <input matInput [ngxMatDatetimePicker]="creationDatePicker" placeholder="Date de création" formControlName="creationDate" />
+      <mat-datepicker-toggle matSuffix [for]="creationDatePicker"></mat-datepicker-toggle>
+      <ngx-mat-datetime-picker #creationDatePicker [showSpinners]="true" [showSeconds]="true"
+                               [stepHour]="1" [stepMinute]="1" [stepSecond]="1"
+                               [touchUi]="false" [color]="'primary'" [enableMeridian]="false"
+                               [hideTime]="false">
+      </ngx-mat-datetime-picker>
+    </mat-form-field>
+    <mat-form-field fxFlex>
+      <input matInput [ngxMatDatetimePicker]="sendDatePicker" placeholder="Date de création" formControlName="sendDate" />
+      <mat-datepicker-toggle matSuffix [for]="sendDatePicker"></mat-datepicker-toggle>
+      <ngx-mat-datetime-picker #sendDatePicker [showSpinners]="true" [showSeconds]="true"
+                               [stepHour]="1" [stepMinute]="1" [stepSecond]="1"
+                               [touchUi]="false" [color]="'primary'" [enableMeridian]="false"
+                               [hideTime]="false">
+      </ngx-mat-datetime-picker>
+    </mat-form-field> -->
+    </mat-card>
+    <mat-card
+      fxLayout="column"
+      fxLayoutGap="10px"
+      fxFlex
+      class="mat-elevation-z15"
+    >
+      <quill-editor fxFlex formControlName="content"></quill-editor>
+      <div fxFlex></div>
+      <div fxFlex></div>
+      <div fxFlex></div>
+      <div fxFlex></div>
+      <div fxFlex></div>
+    </mat-card>
+  </div>
+</form>
+<div class="align-spinner-form"><mat-spinner [diameter]="50" *ngIf="loading"></mat-spinner></div>

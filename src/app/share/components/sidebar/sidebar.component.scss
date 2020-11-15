@@ -1,0 +1,31 @@
+@import '../../../../breakpoint';
+@import '../../../../theme';
+
+.mat-sidenav {
+  width: 360px;
+}
+
+.mat-icon {
+  vertical-align: middle;
+  margin-right: 20px;
+}
+.profile-card {
+  text-align: center;
+  padding: 10px;
+  img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+}
+.mat-nav-list {
+  padding-top: 0;
+}
+
+.menu-list-item.mat-list-item {
+  .mat-list-item-content {
+    flex: 1 1 100%;
+  }
+}
+

@@ -1,0 +1,134 @@
+<form [formGroup]="form"  fxLayout="column" fxLayoutGap="20px">
+  <pm-form-action  fxFlex
+                   (save)="onSave($event)"
+                   (add)="onAdd($event)"
+                   (edit)="onEdit($event)"
+                   (removes)="onRemoves($event)"
+                   (cancel)="onCancel($event)"
+                   (first)="onNavigate($event)"
+                   (previous)="onNavigate($event)"
+                   (next)="onNavigate($event)"
+                   (last)="onNavigate($event)"
+                   [listViewLink]="listViewLink"
+                   [form]="form"
+                   [isValidForm]="form.valid"
+                   [disable]="isDisable"
+                   [data]="product"
+                   [dataEntities]="productEntities"
+                   [title]="title"
+  ></pm-form-action>
+  <input type="hidden" formControlName="id" />
+
+  <div fxLayout="row" fxLayoutGap="10px" fxFlex>
+    <mat-card fxLayout="column" fxFlex="20%" fxLayoutAlign="center center" class="mat-elevation-z15">
+      <img
+        [src]="image"
+        [alt]="product && product.id? product.imageName : ''"
+        width="200px"
+        height="200px"
+        *ngIf="product && product.id !== '' && !loading"
+        fxFlex
+      />
+
+      <input
+        type="file"
+        id="image"
+        hidden
+        (change)="onUploadImage($event)"
+        fxFlex
+      />
+      <button
+        fxFlex
+        mat-icon-button
+        matTooltip="Modifier l'image de profile"
+        matTooltipPosition="right"
+        color="primary"
+        (click)="onChoosePicture()"
+        type="button"
+        *ngIf="product && product.id !== '' && !loading"
+      >
+        <mat-icon>create</mat-icon>
+      </button>
+      <mat-spinner [diameter]="20" *ngIf="loading"></mat-spinner>
+    </mat-card>
+    <mat-card fxLayout="column" fxFlex="40%" class="mat-elevation-z15">
+      <mat-form-field  fxFlex>
+        <input type="text" matInput placeholder="Reference" formControlName="reference"/>
+        <mat-error *ngIf="error && error.reference">
+          {{error.reference}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <input type="text" matInput placeholder="Libelle" formControlName="name"/>
+        <mat-error
+          *ngIf="required('name')  || maximum('name')"
+          class="text-danger"
+        >
+          <span *ngIf="required('name')"
+          >Le libellé est obligatoire</span
+          >
+          <span *ngIf="maximum('name')"
+          >Le libellé doit avoir 64 caratères maximum</span
+          >
+        </mat-error>
+        <mat-error *ngIf="error && error.name">
+          {{error.name}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <input type="number" matInput placeholder="Pris d'achat standard" formControlName="standardCostPrice"/>
+      </mat-form-field>
+      <div fxFlex></div>
+      <div fxFlex></div>
+    </mat-card>
+    <mat-card fxLayout="column" fxFlex="40%" class="mat-elevation-z15">
+      <pm-autocomplete
+        fxFlex
+        formControlName="catalogDto"
+        placeholder="Catalogue*"
+        [options]="catalogs$ | async"
+        [requiredMessage]="catalogDtoRequiredMessage"
+        [required]="true"
+      >
+        <mat-error *ngIf="error && error.catalogDto">
+          {{error.catalogDto}}
+        </mat-error>
+      </pm-autocomplete>
+      <pm-autocomplete
+        fxFlex
+        formControlName="categoryDto"
+        placeholder="Category*"
+        [options]="categories$ | async"
+        [requiredMessage]="categoryDtoRequiredMessage"
+        [required]="true"
+      >
+        <mat-error *ngIf="error && error.categoryDto">
+          {{error.categoryDto}}
+        </mat-error>
+      </pm-autocomplete>
+      <div fxFlex></div>
+      <mat-checkbox fxFlex labelPosition="after" formControlName="active"> Actif</mat-checkbox>
+      <div fxFlex></div>
+      <div fxFlex></div>
+    </mat-card>
+  </div>
+  <div fxLayout="column" fxLayoutGap="10px" fxFlex>
+    <mat-card fxLayout="column" fxFlex>
+      <div fxFlex></div>
+      <div fxFlex></div>
+      <quill-editor fxFlex  formControlName="description" ></quill-editor>
+      <div fxFlex></div>
+      <div fxFlex></div>
+      <div fxFlex></div>
+      <div fxFlex></div>
+      <div fxFlex></div>
+      <div fxFlex></div>
+      <div fxFlex></div>
+      <div fxFlex></div>
+      <div fxFlex></div>
+      <div fxFlex></div>
+    </mat-card>
+  </div>
+
+</form>
+<div class="align-spinner-form"><mat-spinner [diameter]="50" *ngIf="loading"></mat-spinner></div>

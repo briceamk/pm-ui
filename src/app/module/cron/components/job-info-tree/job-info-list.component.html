@@ -1,0 +1,16 @@
+
+<pm-table
+  *ngIf="!loading"
+  [title]="title"
+  [newRoute]="newRoute"
+  [rowData]="jobInfos"
+  [enableCheckbox]="true"
+  [allowMultiSelect]="true"
+  [paginationSetting]="paginationSetting"
+  [columnSettings]="columnSettings"
+  (getSelectedRow)="onNavigate($event)"
+  (getSelectedRows)="onRemoves($event)"
+
+>
+</pm-table>
+<div class="align-spinner"> <mat-spinner  [diameter]="50" *ngIf="loading" ></mat-spinner></div>

@@ -1,1 +1,47 @@
-<p>form-action works!</p>
+<mat-card fxLayout="column" fxLayoutGap="10px" class="mat-elevation-z15">
+  <div fxLayout="row" fxFlex  >
+    <h2 fxFlex fxLayoutAlign="start">{{title}}</h2>
+    <div fxFlex fxLayoutAlign="end">
+      <mat-button-toggle-group *ngIf="disable" >
+        <mat-button-toggle  (click)="onFirst()" [disabled]="isFirst(data, dataEntities)">
+          <mat-icon [color]="isFirst(data, dataEntities)? undefined: 'primary'">first_page</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle  (click)="onPrevious()" [disabled]="!hasPrevious(data, dataEntities)">
+          <mat-icon [color]="!hasPrevious(data, dataEntities)? undefined :  'primary'">navigate_before</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle   (click)="onNext()" [disabled]="!hasNext(data, dataEntities)">
+          <mat-icon  [color]="!hasNext(data, dataEntities)? undefined :  'primary'">navigate_next</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle (click)="onLast()" [disabled]="isLast(data, dataEntities)">
+          <mat-icon [color]="isLast(data, dataEntities)? undefined: 'primary'">last_page</mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+  </div>
+  <div fxLayout="row" fxFlex>
+    <div fxFlex fxLayoutAlign="start">
+      <button type="button" mat-raised-button color="primary" class="action_btn" (click)="onSave()" *ngIf="!disable" [disabled]="!isValidForm">
+        <mat-icon>save</mat-icon> Enregistrer
+      </button>
+      <button type="button" mat-raised-button color="primary" class="action_btn" (click)="onAdd()" *ngIf="disable && !hideAdd">
+        <mat-icon>add</mat-icon> Créer
+      </button>
+      <button type="button" mat-stroked-button color="primary" class="action_btn" (click)="onEdit()" *ngIf="disable && data!=null">
+        <mat-icon>edit</mat-icon> Modifier
+      </button>
+      <button type="button" mat-raised-button color="warn" class="action_btn" (click)="onRemoves ()" *ngIf="disable && data!=null">
+        <mat-icon>delete</mat-icon> Supprimer
+      </button>
+      <button type="button" mat-stroked-button color="primary" class="action_btn" (click)="onCancel()" *ngIf="!disable">
+        <mat-icon>cancel</mat-icon> Annuler
+      </button>
+    </div>
+
+    <div fxFlex fxLayoutAlign="end">
+      <button mat-icon-button [routerLink]="listViewLink">
+        <mat-icon color="primary">menu</mat-icon>
+      </button>
+    </div>
+  </div>
+
+</mat-card>

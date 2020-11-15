@@ -1,0 +1,10 @@
+<pm-job-info-tree
+  [error]="error$ | async"
+  [loading]="loading$ | async"
+  [jobInfos]="jobInfos$ | async"
+  (removes)="onRemoves($event)"
+  (navigate)="onNavigate($event)"
+
+>
+
+</pm-job-info-tree>

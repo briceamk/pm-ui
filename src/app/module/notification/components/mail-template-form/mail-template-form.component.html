@@ -1,0 +1,69 @@
+<form [formGroup]="form"  fxLayout="column" fxLayoutGap="20px">
+  <pm-form-action  fxFlex
+                   (save)="onSave($event)"
+                   (add)="onAdd($event)"
+                   (edit)="onEdit($event)"
+                   (removes)="onRemoves($event)"
+                   (cancel)="onCancel($event)"
+                   (first)="onNavigate($event)"
+                   (previous)="onNavigate($event)"
+                   (next)="onNavigate($event)"
+                   (last)="onNavigate($event)"
+                   [listViewLink]="listViewLink"
+                   [form]="form"
+                   [isValidForm]="form.valid"
+                   [disable]="isDisable"
+                   [data]="mailTemplate"
+                   [dataEntities]="mailTemplateEntities"
+                   [title]="title"
+  ></pm-form-action>
+  <input type="hidden" formControlName="id" />
+  <div fxLayout="row" fxLayoutGap="10px" fxFlex >
+    <mat-card fxLayout="column" fxFlex class="mat-elevation-z15">
+      <mat-form-field  fxFlex>
+        <input type="text" matInput formControlName="name" placeholder="Libelle"/>
+        <mat-error *ngIf="required('name')" class="invalid-feedback">
+          <span *ngIf="required('name')">Le libellé est obligatoire</span>
+        </mat-error>
+        <mat-error *ngIf="error && error.name"><span>{{error.name}}</span></mat-error>
+      </mat-form-field>
+    </mat-card>
+    <mat-card fxLayout="column" fxFlex class="mat-elevation-z15">
+      <mat-form-field  fxFlex>
+        <input type="text" matInput formControlName="subject" placeholder="Objet"/>
+        <mat-error *ngIf="required('subject')" class="invalid-feedback">
+          <span *ngIf="required('subject')">L'objet est obligatoire</span>
+        </mat-error>
+        <mat-error *ngIf="error && error.subject"><span>{{error.subject}}</span></mat-error>
+      </mat-form-field>
+    </mat-card>
+    <mat-card fxLayout="column" fxFlex class="mat-elevation-z15">
+      <mat-form-field  fxFlex>
+        <mat-select formControlName="type" placeholder="Type">
+          <mat-option *ngFor="let typeLabel of typeLabels"  [value]="getKey(typeLabel)"> <span>{{getLabel(typeLabel)}}</span> </mat-option>
+        </mat-select>
+        <mat-error *ngIf="required('type')" class="invalid-feedback">
+          <span *ngIf="required('type')">Le type est obligatoire</span>
+        </mat-error>
+        <mat-error *ngIf="error && error.type"><span>{{error.type}}</span></mat-error>
+      </mat-form-field>
+    </mat-card>
+  </div>
+  <div fxLayout="row" fxLayoutGap="10px">
+    <mat-card fxFlex fxLayout="column" fxLayoutGap="20px" class="mat-elevation-z15">
+        <div fxFlex></div>
+        <div fxFlex></div>
+        <quill-editor fxFlex  formControlName="content" ></quill-editor>
+        <mat-error *ngIf="required('content')" class="invalid-feedback">
+          <span *ngIf="required('content')">Le contenu est obligatoire</span>
+        </mat-error>
+        <mat-error *ngIf="error && error.content"><span>{{error.content}}</span></mat-error>
+        <div fxFlex></div>
+        <div fxFlex></div>
+        <div fxFlex></div>
+        <div fxFlex></div>
+        <div fxFlex></div>
+    </mat-card>
+  </div>
+</form>
+<div class="align-spinner-form"><mat-spinner [diameter]="50" *ngIf="loading"></mat-spinner></div>

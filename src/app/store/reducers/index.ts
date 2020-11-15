@@ -61,7 +61,7 @@ export function clearState(
   reducer: ActionReducer<State>
 ): ActionReducer<State> {
   return (state, action) => {
-    if (action.type === '[Auth API] Logout Success') {
+    if (action.type === '[Auth API] SignOut Success') {
       state = undefined;
     }
     return reducer(state, action);

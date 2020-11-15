@@ -1,0 +1,9 @@
+<pm-product-tree
+  [error]="error$ | async"
+  [loading]="loading$ | async"
+  [products]="products$ | async"
+  (removes)="onRemoves($event)"
+  (navigate)="onNavigate($event)"
+>
+</pm-product-tree>
+

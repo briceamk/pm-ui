@@ -1,0 +1,177 @@
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  fxLayoutAlign="center center"
+  autocomplete="off"
+>
+  <mat-card fxLayout="column" fxFlex="30%" class="sign-up-card mat-elevation-z15">
+    <mat-card-header fxLayoutAlign="center center" fxLayout="column">
+      <h1>Créer un Compte</h1>
+      <img src="../../../../../assets/logo_gelodia.png" alt="Logo GELODIA">
+    </mat-card-header>
+    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center">
+      <mat-form-field  fxFlex>
+        <input type="text" matInput placeholder="Prénom" formControlName="firstName"/>
+        <mat-error
+          *ngIf="maximum('firstName')"
+          class="text-danger"
+        >
+          <span *ngIf="maximum('firstName')"
+          >Le prénom doit avoir un maximum de 64 caractères.</span
+          >
+        </mat-error>
+        <mat-error *ngIf="error && error.firstName">
+          {{error.firstName}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <input type="text" matInput placeholder="Nom" formControlName="lastName"/>
+        <mat-error
+          *ngIf="required('lastName')  || minimum('lastName')"
+          class="text-danger"
+        >
+          <span *ngIf="required('lastName')"
+          >Le nom est obligatoire</span
+          >
+          <span *ngIf="maximum('lastName')"
+          >Le nom doit avoir 32 caratères maximum</span
+          >
+        </mat-error>
+        <mat-error *ngIf="error && error.lastName">
+          {{error.lastName}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center">
+      <mat-form-field  fxFlex>
+        <input type="text" matInput placeholder="Ville" formControlName="city"/>
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <mat-label>Téléphone</mat-label>
+        <input type="text" matInput placeholder="Téléphone" formControlName="mobile"/>
+      </mat-form-field>
+    </div>
+    <mat-form-field  fxFlex>
+      <input type="text" matInput placeholder="Login" formControlName="username"/>
+      <mat-error
+        *ngIf="required('username') || maximum('username') || minimum('username')"
+        class="text-danger"
+      >
+        <span *ngIf="required('username')">Le login est obligatoire</span>
+        <span *ngIf="minimum('username')"
+        >Le login doit avoir 5 caractère minimum</span
+        >
+        <span *ngIf="maximum('username')"
+        >Le login doit avoir 32 caratères maximum</span
+        >
+      </mat-error>
+      <mat-error *ngIf="error && error.username">
+        {{error.username }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field  fxFlex>
+      <input type="text" matInput placeholder="Email" formControlName="email"/>
+      <mat-error
+        *ngIf="required('email') || maximum('email') || minimum('email') || email('email')"
+        class="text-danger"
+      >
+        <span *ngIf="required('email')">L'email est obligatoire</span>
+        <span *ngIf="minimum('email')"
+        >L'email' doit avoir 5 caractère minimum</span
+        >
+        <span *ngIf="maximum('email')"
+        >Le login doit avoir 128 caratères maximum</span
+        >
+        <span *ngIf="email('email')"
+        >email invalide</span
+        >
+      </mat-error>
+      <mat-error *ngIf="error && error.email">
+        {{error.email }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field  fxFlex>
+      <input type="text" matInput placeholder="Code Entreprise" formControlName="companyCode"/>
+      <mat-error
+        *ngIf="required('companyCode') || maximum('companyCode') || minimum('companyCode')"
+        class="text-danger"
+      >
+        <span *ngIf="required('companyCode')"
+        >Le code entreprise est obligatoire</span
+        >
+        <span *ngIf="minimum('companyCode')"
+        >Le code entreprise doit avoir 5 caractère minimum</span
+        >
+        <span *ngIf="maximum('companyCode')"
+        >Le code entreprise doit avoir 32 caratères maximum</span
+        >
+      </mat-error>
+      <mat-error *ngIf="error && error.companyCode">
+        {{error.companyCode}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field  fxFlex>
+      <input
+        [type]="hide ? 'password' : 'text'"
+        matInput
+        placeholder="Mot de passe"
+        formControlName="password"
+      /><button
+      mat-icon-button
+      matSuffix
+      (click)="hide = !hide"
+      matTooltip="Afficher le mot de passe"
+      matTooltipPosition="right"
+      type="button"
+      color="primary"
+    >
+      <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+    </button>
+      <mat-error
+        *ngIf="
+            required('password') || minimum('password') || maximum('password')
+          "
+        class="invalid-feedback"
+      >
+        <span *ngIf="required('password')"
+        >Le mot de passe est obligatoire</span
+        >
+
+        <span *ngIf="minimum('password')"
+        >Le mot de passe doit avoir 6 caractères minimum</span
+        >
+        <span *ngIf="maximum('password')"
+        >Le mot de passe doit avoir 32 caractères maximum</span
+        >
+      </mat-error>
+      <mat-error *ngIf="error && error.password">
+        {{error.password}}
+      </mat-error>
+    </mat-form-field>
+    <!--button section-->
+    <div
+      fxLayout="column"
+      fxLayoutGap="30px"
+      fxLayoutAlign="center"
+      fxFlex="100%"
+      class="footer"
+    >
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="!form.valid"
+        type="submit"
+        fxFlex="100%"
+        class="sign-btn"
+        *ngIf="!loading"
+      >
+        <mat-icon>done</mat-icon> Valider
+      </button>
+      <p class="register-link" fxFlex>
+        <a mat-button color="primary" [routerLink]="['/auth/sign-in']">Déja un compte? Se connecter</a>
+      </p>
+    </div>
+  </mat-card>
+</form>
+
+<div class="align-spinner-form"><mat-spinner [diameter]="50" *ngIf="loading"></mat-spinner></div>

@@ -1,0 +1,8 @@
+<pm-mail-tree
+  [error]="error$ | async"
+  [loading]="loading$ | async"
+  [mails]="mails$ | async"
+  (removes)="onRemoves($event)"
+  (navigate)="onNavigate($event)"
+>
+</pm-mail-tree>

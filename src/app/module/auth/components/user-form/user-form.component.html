@@ -1,0 +1,176 @@
+<form [formGroup]="form"  fxLayout="column" fxLayoutGap="20px">
+  <h2>{{this.form.get('roleDtos').value | json}}</h2>
+  <pm-form-action  fxFlex
+                   (save)="onSave($event)"
+                   (add)="onAdd($event)"
+                   (edit)="onEdit($event)"
+                   (removes)="onRemoves($event)"
+                   (cancel)="onCancel($event)"
+                   (first)="onNavigate($event)"
+                   (previous)="onNavigate($event)"
+                   (next)="onNavigate($event)"
+                   (last)="onNavigate($event)"
+                   [listViewLink]="listViewLink"
+                   [form]="form"
+                   [isValidForm]="form.valid"
+                   [disable]="isDisable"
+                   [data]="user"
+                   [dataEntities]="userEntities"
+                   [title]="title"
+  ></pm-form-action>
+  <input type="hidden" formControlName="id" />
+  <div fxLayout="row" fxLayoutGap="10px" fxFlex>
+    <mat-card fxLayout="column" fxFlex class="mat-elevation-z15">
+      <mat-form-field  fxFlex>
+        <input type="text" matInput placeholder="Prénom" formControlName="firstName"/>
+        <mat-error
+          *ngIf="maximum('firstName')"
+          class="text-danger"
+        >
+          <span *ngIf="maximum('firstName')"
+          >Le prénom doit avoir un maximum de 64 caractères.</span
+          >
+        </mat-error>
+        <mat-error *ngIf="error && error.firstName">
+          {{error.firstName}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <input type="text" matInput placeholder="Nom" formControlName="lastName"/>
+        <mat-error
+          *ngIf="required('lastName')  || minimum('lastName')"
+          class="text-danger"
+        >
+          <span *ngIf="required('lastName')"
+          >Le nom est obligatoire</span
+          >
+          <span *ngIf="maximum('lastName')"
+          >Le nom doit avoir 32 caratères maximum</span
+          >
+        </mat-error>
+        <mat-error *ngIf="error && error.lastName">
+          {{error.lastName}}
+        </mat-error>
+      </mat-form-field>
+      <ng-select fxFlex
+                 bindLabel="name"
+                 placeholder="Roles"
+                 appendTo="body"
+                 multiple="true"
+                 [searchable]="true"
+                 [clearable]="true"
+                 formControlName="roleDtos">
+        <ng-option [value]="role"  *ngFor="let role of roles">
+          {{role.name}}
+        </ng-option>
+      </ng-select>
+
+    </mat-card>
+    <mat-card fxLayout="column" fxFlex class="mat-elevation-z15">
+      <mat-form-field  fxFlex>
+        <input type="text" matInput placeholder="Login" formControlName="username"/>
+        <mat-error
+          *ngIf="required('username') || maximum('username') || minimum('username')"
+          class="text-danger"
+        >
+          <span *ngIf="required('username')">Le login est obligatoire</span>
+          <span *ngIf="minimum('username')"
+          >Le login doit avoir 5 caractère minimum</span
+          >
+          <span *ngIf="maximum('username')"
+          >Le login doit avoir 32 caratères maximum</span
+          >
+        </mat-error>
+        <mat-error *ngIf="error && error.username">
+          {{error.username }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <input type="text" matInput placeholder="Email" formControlName="email"/>
+        <mat-error
+          *ngIf="required('email') || maximum('email') || minimum('email') || email('email')"
+          class="text-danger"
+        >
+          <span *ngIf="required('email')">L'email est obligatoire</span>
+          <span *ngIf="minimum('email')"
+          >L'email' doit avoir 5 caractère minimum</span
+          >
+          <span *ngIf="maximum('email')"
+          >Le login doit avoir 128 caratères maximum</span
+          >
+          <span *ngIf="email('email')"
+          >email invalide</span
+          >
+        </mat-error>
+        <mat-error *ngIf="error && error.email">
+          {{error.email }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <input
+          [type]="hide ? 'password' : 'text'"
+          matInput
+          placeholder="Mot de passe"
+          formControlName="password"
+        /><button
+        mat-icon-button
+        matSuffix
+        (click)="hide = !hide"
+        matTooltip="Afficher le mot de passe"
+        matTooltipPosition="right"
+        type="button"
+        color="primary"
+      >
+        <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+        <mat-error
+          *ngIf="
+            required('password') || minimum('password') || maximum('password')
+          "
+          class="invalid-feedback"
+        >
+        <span *ngIf="required('password')"
+        >Le mot de passe est obligatoire</span
+        >
+
+          <span *ngIf="minimum('password')"
+          >Le mot de passe doit avoir 6 caractères minimum</span
+          >
+          <span *ngIf="maximum('password')"
+          >Le mot de passe doit avoir 32 caractères maximum</span
+          >
+        </mat-error>
+        <mat-error *ngIf="error && error.password">
+          {{error.password}}
+        </mat-error>
+      </mat-form-field>
+    </mat-card>
+  </div>
+  <div fxLayout="row" fxLayoutGap="10px" fxFlex>
+    <mat-card fxLayout="column" fxFlex class="mat-elevation-z15">
+      <mat-form-field  fxFlex>
+        <input type="text" matInput placeholder="Ville" formControlName="city"/>
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <mat-label>Téléphone</mat-label>
+        <input type="text" matInput placeholder="Téléphone" formControlName="mobile"/>
+      </mat-form-field>
+    </mat-card>
+    <mat-card fxLayout="column" fxFlex class="mat-elevation-z15">
+      <p></p>
+      <p></p>
+      <div fxLayout="row" fxFlex fxLayoutAlign="space-between">
+        <mat-checkbox fxFlex labelPosition="after" formControlName="accountNonExpired"> Non expiré?</mat-checkbox>
+        <mat-checkbox fxFlex labelPosition="after" formControlName="accountNonLocked"> Non bloqué?</mat-checkbox>
+      </div>
+      <p></p>
+      <p></p>
+      <div fxLayout="row" fxFlex fxLayoutAlign="space-between">
+        <mat-checkbox fxFlex labelPosition="after" formControlName="credentialsNonExpired"> Mot de passe non expiré?</mat-checkbox>
+        <mat-checkbox fxFlex labelPosition="after" formControlName="enabled"> Actif?</mat-checkbox>
+      </div>
+    </mat-card>
+  </div>
+</form>
+
+<div class="align-spinner-form"><mat-spinner [diameter]="50" *ngIf="loading"></mat-spinner></div>

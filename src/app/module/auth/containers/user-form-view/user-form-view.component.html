@@ -1,0 +1,14 @@
+<pm-user-form
+  [user]="user$ | async"
+  [roles]="roles$ | async"
+  [userEntities]="userEntities$ | async"
+  [loading]="loading$ | async"
+  [error]="error$ | async"
+  (create)="onCreate($event)"
+  (update)="onUpdate($event)"
+  (removes)="onRemoves($event)"
+  (navigate)="onNavigate($event)"
+>
+
+</pm-user-form>
+

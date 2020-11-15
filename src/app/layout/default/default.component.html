@@ -1,1 +1,15 @@
-<p>default works!</p>
+<pm-header *ngIf="loggedIn$ | async"  (toggleSidebar)="doToggleSideBar($event)"  (signOut)="doSignOut($event)"></pm-header>
+
+<mat-drawer-container  >
+
+  <mat-drawer *ngIf="loggedIn$ | async" mode="side" [opened]="sideBarOpen">
+    <pm-sidebar [profile] = "profile$ | async"  ></pm-sidebar>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+
+</mat-drawer-container>
+
+ <pm-footer *ngIf="loggedIn$ | async"></pm-footer>

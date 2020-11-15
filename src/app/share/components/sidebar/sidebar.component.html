@@ -1,1 +1,14 @@
-<p>sidebar works!</p>
+<mat-nav-list>
+  <!--<div class="profile-card">
+    <img src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Image User Logged In">
+    <div class="header">
+      <h2>{{ fullName }}</h2>
+      <h4>{{ email }}</h4>
+    </div>
+  </div>-->
+  <mat-nav-list>
+    <pm-menu-list-item *ngFor="let item of navItems" [item]="item"></pm-menu-list-item>
+  </mat-nav-list>
+
+
+</mat-nav-list>

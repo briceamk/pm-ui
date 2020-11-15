@@ -1,0 +1,8 @@
+<pm-mail-template-tree
+  [loading]="loading$ | async"
+  [error]="error$ | async"
+  [mailTemplates]="mailTemplates$ | async"
+  (removes)="onRemoves($event)"
+  (navigate)="onNavigate($event)"
+>
+</pm-mail-template-tree>

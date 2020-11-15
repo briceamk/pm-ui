@@ -1,0 +1,14 @@
+<pm-company-form
+  [company]="company$ | async"
+  [companyEntities]="companyEntities$ | async"
+  [logo]="logo$ | async"
+  [loading]="loading$ | async"
+  [error]="error$ | async"
+  (create)="onCreate($event)"
+  (update)="onUpdate($event)"
+  (removes)="onRemoves($event)"
+  (navigate)="onNavigate($event)"
+  (upload)="onUpload($event)"
+>
+
+</pm-company-form>

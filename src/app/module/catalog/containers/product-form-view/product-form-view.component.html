@@ -1,0 +1,16 @@
+<pm-product-form
+  [image]="image$ | async"
+  [error]="error$ | async"
+  [product]="product$ | async"
+  [catalogs]="catalogs$ | async"
+  [categories]="categories$ | async"
+  [productEntities]="productEntities$ | async"
+  [loading]="loading$ | async"
+  (create)="onCreate($event)"
+  (update)="onUpdate($event)"
+  (removes)="onRemoves($event)"
+  (navigate)="onNavigate($event)"
+  (upload)="onUpload($event)"
+>
+
+</pm-product-form>

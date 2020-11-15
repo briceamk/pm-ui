@@ -1,0 +1,45 @@
+<mat-form-field>
+  <mat-chip-list #chipList>
+    <mat-chip
+      *ngFor="let chip of chips"
+      [selectable]="selectable"
+      [removable]="removable"
+      (removed)="remove(chip)">
+      {{chip.name || chip.label}}
+      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
+    <input
+      [placeholder]="placeholder"
+      #chipInput
+      [formControl]="inputControl"
+      [matAutocomplete]="autoComplete"
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="add($event)"
+      (blur)="onTouched()"
+      matAutocompletePosition="below"
+    >
+  </mat-chip-list>
+  <mat-autocomplete
+    #autoComplete="matAutocomplete"
+    (optionSelected)="selected($event)"
+  >
+    <mat-option *ngIf="isSearching; else optionsTemplate" disabled="true">
+      <em>Searching...</em>
+    </mat-option>
+
+    <ng-template  #optionsTemplate>
+      <ng-container *ngFor="let option of options">
+        <mat-option
+          *ngIf="!chips.includes(option)" [value]="option"
+        >
+          {{ option.name || option.label }}
+        </mat-option>
+      </ng-container>
+    </ng-template>
+
+    <mat-option *ngIf="!isSearching && noResults" value="" disabled="true">
+      <b>No results found</b>
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

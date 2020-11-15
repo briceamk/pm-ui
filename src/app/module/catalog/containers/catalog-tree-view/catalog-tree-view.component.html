@@ -1,0 +1,8 @@
+<pm-catalog-tree
+  [error]="error$ | async"
+  [loading]="loading$ | async"
+  [catalogs]="catalogs$ | async"
+  (removes)="onRemoves($event)"
+  (navigate)="onNavigate($event)"
+>
+</pm-catalog-tree>

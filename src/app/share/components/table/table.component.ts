@@ -1,5 +1,5 @@
 import {
-  AfterViewInit,
+  AfterViewInit, ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -10,21 +10,27 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import {ColumnSetting} from '../../models/column-setting';
-import {PaginationSetting} from '../../models/pagination-setting';
+
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
-import {CustomSort} from '../../models/custom-sort';
+
+import * as moment from 'moment';
+
+import {ColumnSetting, CustomSort, PaginationSetting} from '@share/models';
+
+
+
 
 @Component({
-  selector: 'pm-custom-mat-table',
-  templateUrl: './custom-mat-table.component.html',
-  styleUrls: ['./custom-mat-table.component.scss'],
+  selector: 'pm-table',
+  templateUrl: './table.component.html',
+  styleUrls: ['./table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class CustomMatTableComponent implements OnInit, AfterViewInit, OnChanges {
+export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   selectedRowIndex = -1;
   type: string;
@@ -33,8 +39,10 @@ export class CustomMatTableComponent implements OnInit, AfterViewInit, OnChanges
   selection = new SelectionModel<{}>()
 
   @Input() title: string;
+  @Input() newRoute: string;
   @Input() enableCheckbox: boolean;
   @Input() allowMultiSelect: boolean;
+  @Input() hideAdd: boolean;
   @Input() columnSettings: ColumnSetting[];
   @Input() paginationSetting: PaginationSetting;
   @Input() rowData: object[]
@@ -42,8 +50,9 @@ export class CustomMatTableComponent implements OnInit, AfterViewInit, OnChanges
   @Input() initialRowSelection: any;
   @Input() dataSource: MatTableDataSource<{}>
 
-  @Output() getSelectedRows = new EventEmitter();
-  @Output() getFilterDatasource = new EventEmitter();
+  @Output() getSelectedRow: EventEmitter<any> = new EventEmitter<any>();
+  @Output() getSelectedRows: EventEmitter<any[]> = new EventEmitter<any[]>();
+  @Output() getFilterDatasource: EventEmitter<any> = new EventEmitter<any>();
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -99,11 +108,10 @@ export class CustomMatTableComponent implements OnInit, AfterViewInit, OnChanges
     this.isAllSelected()?
       this.selection.clear():
       this.dataSource.data.forEach(row => this.selection.select(row));
-    this.getSelectedRows.emit(this.selection.selected);
   }
 
   rowSelect(row: any) {
-    this.getSelectedRows.emit(row);
+    this.getSelectedRow.emit(row);
   }
 
   highLight(row: any) {
@@ -123,6 +131,19 @@ export class CustomMatTableComponent implements OnInit, AfterViewInit, OnChanges
     if(column.type === 'date') {
       this.maaz = 'date';
     }
+  }
+
+  isDate(value: any): boolean {
+    let formats = [
+      moment.ISO_8601,
+      "MM/DD/YYYY  :)  HH*mm*ss"
+    ];
+    return moment(value, formats, true).isValid();;
+  }
+
+  onDelete() {
+    this.getSelectedRows.emit(this.selection.selected);
+    this.selection.clear();
   }
 
 }

@@ -1,0 +1,8 @@
+<pm-category-tree
+  [error]="error$ | async"
+  [loading]="loading$ | async"
+  [categories]="categories$ | async"
+  (removes)="onRemoves($event)"
+  (navigate)="onNavigate($event)"
+>
+</pm-category-tree>
