@@ -1,5 +1,6 @@
 import {User} from '@module/auth/models';
 import {Workflow} from '@module/organization/models/workflow';
+import {Company} from '@module/company/models';
 
 export interface CostCenter {
   id: string;
@@ -9,4 +10,5 @@ export interface CostCenter {
   userDtos: User[];
   workflowDtos: Workflow[];
   functionDtos: Function[];
+  companyDto: Company;
 }

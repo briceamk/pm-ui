@@ -1,1 +1,8 @@
-<p>cost-center-tree-view works!</p>
+<pm-cost-center-tree
+  [error]="error$ | async"
+  [loading]="loading$ | async"
+  [costCenters]="costCenters$ | async"
+  (removes)="onRemoves($event)"
+  (navigate)="onNavigate($event)"
+>
+</pm-cost-center-tree>

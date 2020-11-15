@@ -1,6 +1,7 @@
 import {CostCenter} from '@module/organization/models/cost-center';
 import {User} from '@module/auth/models';
 import {Address} from '@module/organization/models/address';
+import {Company} from '@module/company/models';
 
 
 export interface Department {
@@ -12,4 +13,5 @@ export interface Department {
   addressDto: Address;
   userDtos: User[];
   addressDtos: Address[];
+  companyDto: Company;
 }

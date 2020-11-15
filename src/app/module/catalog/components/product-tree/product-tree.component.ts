@@ -32,7 +32,7 @@ export class ProductTreeComponent implements OnInit {
   ngOnInit(): void {
     this.title = "Articles";
     this.paginationSetting.enablePagination = true;
-    this.paginationSetting.pageSize = 5;
+    this.paginationSetting.pageSize = 60;
     this.paginationSetting.pageSizeOptions = [60, 100, 200, 500];
     this.paginationSetting.showFirstLastButton = true;
     this.columnSettings = [

@@ -1,4 +1,5 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {SignInResponse} from '@module/auth/models';
 
 @Component({
   selector: 'pm-header',
@@ -8,6 +9,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output} from '
 })
 export class HeaderComponent implements OnInit {
 
+  @Input() profile: SignInResponse;
   @Output() toggleSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() signOut: EventEmitter<any> = new EventEmitter<any>();
 

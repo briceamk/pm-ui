@@ -1,4 +1,5 @@
 import {Level} from '@module/organization/models/level';
+import {Company} from '@module/company/models';
 
 export interface Workflow {
   id: string;
@@ -7,4 +8,5 @@ export interface Workflow {
   description: string;
   active: boolean;
   levelDtos: Level[];
+  companyDto: Company;
 }

@@ -1,1 +1,8 @@
-<p>workflow-tree-view works!</p>
+<pm-workflow-tree
+  [error]="error$ | async"
+  [loading]="loading$ | async"
+  [workflows]="workflows$ | async"
+  (removes)="onRemoves($event)"
+  (navigate)="onNavigate($event)"
+>
+</pm-workflow-tree>

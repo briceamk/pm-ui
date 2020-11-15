@@ -1,4 +1,4 @@
-<pm-header *ngIf="loggedIn$ | async"  (toggleSidebar)="doToggleSideBar($event)"  (signOut)="doSignOut($event)"></pm-header>
+<pm-header *ngIf="loggedIn$ | async"  (toggleSidebar)="doToggleSideBar($event)"  (signOut)="doSignOut($event)" [profile]="profile$ | async"></pm-header>
 
 <mat-drawer-container  >
 

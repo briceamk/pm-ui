@@ -8,7 +8,7 @@
 
     <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
       <ul fxLayout="row" fxLayoutGap="20px">
-        <li>
+        <!--<li>
           <button mat-icon-button>
             <mat-icon>settings</mat-icon>
           </button>
@@ -17,19 +17,24 @@
           <button mat-icon-button>
             <mat-icon>help_outline</mat-icon>
           </button>
-        </li>
+        </li>-->
         <li>
           <button mat-icon-button [matMenuTriggerFor]="person_menu" aria-label="Example icon-button with a menu">
-            <mat-icon>person_outline</mat-icon>
+            <!--<mat-icon>person_outline</mat-icon>-->
+            {{profile.username}}
           </button>
           <mat-menu #person_menu="matMenu">
             <button mat-menu-item>
-              <mat-icon>notifications</mat-icon>
-              <span>Notifications</span>
+              <mat-icon>https</mat-icon>
+              <span>Modifier mot de passe</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>person_outline</mat-icon>
+              <span>Mon profile</span>
             </button>
             <button mat-menu-item (click)="doSignOut()">
               <mat-icon>exit_to_app</mat-icon>
-              <span>Se deconnecter</span>
+              <span>Déconnexion</span>
             </button>
           </mat-menu>
         </li>

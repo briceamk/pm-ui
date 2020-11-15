@@ -1,4 +1,5 @@
 import {Role} from '@module/auth/models';
+import {Company} from '@module/company/models';
 
 export interface Function {
   id: string;
@@ -6,4 +7,5 @@ export interface Function {
   name: string;
   type: string; // can be DEPARTMENT or COST_CENTER
   roleDtos: Role[];
+  companyDto: Company;
 }

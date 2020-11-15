@@ -9,6 +9,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { QuillModule } from 'ngx-quill';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatMomentDatetimeModule } from '@mat-datetimepicker/moment';
+import {NgSelectModule} from '@ng-select/ng-select';
+import {NgxMatAlertConfirmModule, NgxMatAlertConfirmService} from 'ngx-mat-alert-confirm';
 
 // components
 import * as fromComponents from '@share/components';
@@ -22,7 +24,7 @@ import {
   MatDatetimepickerModule,
   MAT_DATETIME_FORMATS,
 } from '@mat-datetimepicker/core';
-import {NgSelectModule} from '@ng-select/ng-select';
+
 
 
 @NgModule({
@@ -41,6 +43,7 @@ import {NgSelectModule} from '@ng-select/ng-select';
     MatMomentDateModule,
     MatMomentDatetimeModule,
     NgSelectModule,
+    NgxMatAlertConfirmModule
   ],
   exports: [
     MaterialModule,
@@ -53,9 +56,11 @@ import {NgSelectModule} from '@ng-select/ng-select';
     QuillModule,
     MatDatetimepickerModule,
     NgSelectModule,
+    NgxMatAlertConfirmModule,
     ...fromComponents.components,
   ],
   providers: [
+    NgxMatAlertConfirmService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     {
       provide: MAT_DATETIME_FORMATS,

@@ -1,1 +1,8 @@
-<p>charge-tree-view works!</p>
+<pm-charge-tree
+  [error]="error$ | async"
+  [loading]="loading$ | async"
+  [charges]="charges$ | async"
+  (removes)="onRemoves($event)"
+  (navigate)="onNavigate($event)"
+>
+</pm-charge-tree>

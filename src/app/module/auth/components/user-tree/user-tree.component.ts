@@ -4,6 +4,8 @@ import {ToastrService} from 'ngx-toastr';
 import * as fromShare from '@share/index';
 import {User} from '@module/auth/models';
 import {Title} from '@angular/platform-browser';
+import {ConfirmConfig, NgxMatAlertConfirmService} from 'ngx-mat-alert-confirm';
+import {confirmConfig} from '@share/utils';
 
 @Component({
   selector: 'pm-user-tree',
@@ -23,14 +25,14 @@ export class UserTreeComponent implements OnInit, OnChanges {
   title: string;
   newRoute = `/auth/users/new`;
 
-  constructor(private _toastr: ToastrService, private _title: Title) {
+  constructor(private _toastr: ToastrService, private _title: Title, private _alert: NgxMatAlertConfirmService) {
     this._title.setTitle('Utilisateurs - PM');
   }
 
   ngOnInit(): void {
     this.title = "Utilisateurs";
     this.paginationSetting.enablePagination = true;
-    this.paginationSetting.pageSize = 5;
+    this.paginationSetting.pageSize = 60;
     this.paginationSetting.pageSizeOptions =  [60, 100, 200, 500];
     this.paginationSetting.showFirstLastButton = true;
     this.columnSettings = [
@@ -80,7 +82,19 @@ export class UserTreeComponent implements OnInit, OnChanges {
   }
 
   onRemoves($event: User[]) {
-    this.removes.emit($event.map(event => event.id));
+    let message = '';
+    if( $event.length === 1)
+      message = 'Supprimer cet utilisateur?';
+    else
+      message = 'Supprimer ces utilisateurs?'
+    const userConfirmConfig: ConfirmConfig = {...confirmConfig, message: message};
+    const dialogueRef = this._alert.confirm(userConfirmConfig);
+
+    dialogueRef.afterClosed().subscribe(confirmResult => {
+     if (confirmResult === '1')
+       this.removes.emit($event.map(event => event.id));
+    });
+
   }
 
 }
