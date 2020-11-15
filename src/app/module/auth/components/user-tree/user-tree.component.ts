@@ -31,7 +31,7 @@ export class UserTreeComponent implements OnInit, OnChanges {
     this.title = "Utilisateurs";
     this.paginationSetting.enablePagination = true;
     this.paginationSetting.pageSize = 5;
-    this.paginationSetting.pageSizeOptions = [5, 10, 25];
+    this.paginationSetting.pageSizeOptions =  [60, 100, 200, 500];
     this.paginationSetting.showFirstLastButton = true;
     this.columnSettings = [
       {
