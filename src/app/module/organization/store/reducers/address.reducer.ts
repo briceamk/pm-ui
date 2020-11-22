@@ -1,12 +1,14 @@
 import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import {Action, createReducer, on} from '@ngrx/store';
-import * as fromAddress from '@module/organization/store/actions';
+import * as fromActions from '@module/organization/store/actions';
 import {Address} from '@module/organization/models';
 
 export interface AddressState extends EntityState<Address> {
   loading?: boolean;
   loaded?: boolean;
   errorMsg?: any;
+  imageHeader: any;
+  imageFooter: any;
 }
 
 export const adapter: EntityAdapter<Address> = createEntityAdapter<Address>({
@@ -18,18 +20,20 @@ export const adapter: EntityAdapter<Address> = createEntityAdapter<Address>({
 export const initialState: AddressState = adapter.getInitialState({
   loading: false,
   loaded: false,
-  errorMsg: null
+  errorMsg: null,
+  imageHeader: null,
+  imageFooter: null
 });
 
 export const addressReducer = createReducer(
   initialState,
-  on(fromAddress.LoadAddresses, state => ({
+on(fromActions.LoadAddresses, state => ({
     ...state,
     loading: true,
     loaded: false,
     errorMsg: null
   })),
-  on(fromAddress.LoadAddressesSuccess, (state, { addresses }) =>
+on(fromActions.LoadAddressesSuccess, (state, { addresses }) =>
     adapter.addMany(addresses, {
       ...state,
       loading: false,
@@ -38,8 +42,8 @@ export const addressReducer = createReducer(
     })
   ),
   on(
-    fromAddress.CreateAddress,
-    fromAddress.UpdateAddress,
+fromActions.CreateAddress,
+fromActions.UpdateAddress,
     (state, { address }) => {
       return {
         ...state,
@@ -49,7 +53,17 @@ export const addressReducer = createReducer(
       };
     }
   ),
-  on(fromAddress.CreateAddressSuccess, (state, { address }) =>
+  on(
+    fromActions.SetAddressImage, (state, { id, image, field }) => {
+      return {
+        ...state,
+        loading: true,
+        loaded: false
+      };
+
+    }
+  ),
+on(fromActions.CreateAddressSuccess, (state, { address }) =>
     adapter.addOne(address, {
       ...state,
       loading: false,
@@ -57,7 +71,10 @@ export const addressReducer = createReducer(
       errorMsg: null
     })
   ),
-  on(fromAddress.UpdateAddressSuccess, (state, { address }) =>
+on(
+  fromActions.UpdateAddressSuccess,
+  fromActions.SetAddressImageSuccess,
+  (state, { address }) =>
     adapter.updateOne(address, {
       ...state,
       loading: false,
@@ -65,10 +82,16 @@ export const addressReducer = createReducer(
       errorMsg: null
     })
   ),
-
+  on(fromActions.DownloadAddressImageSuccess, (state, { image, field }) => ({
+    ...state,
+    imageHeader: field === 'header'? image: state.imageHeader,
+    imageFooter: field === 'footer'? image: state.imageFooter,
+    loading: false,
+    loaded: true,
+  })),
   on(
-    fromAddress.RemoveAddressSuccess,
-    fromAddress.RemoveAddressesSuccess,
+fromActions.RemoveAddressSuccess,
+fromActions.RemoveAddressesSuccess,
     (state, { ids }) => {
       return adapter.removeMany(ids, {
         ...state,
@@ -79,11 +102,13 @@ export const addressReducer = createReducer(
     }),
 
   on(
-    fromAddress.LoadAddressesFail,
-    fromAddress.CreateAddressFail,
-    fromAddress.UpdateAddressFail,
-    fromAddress.RemoveAddressFail,
-    fromAddress.RemoveAddressesFail,
+fromActions.LoadAddressesFail,
+fromActions.CreateAddressFail,
+fromActions.UpdateAddressFail,
+fromActions.SetAddressImageFail,
+fromActions.DownloadAddressImageFail,
+fromActions.RemoveAddressFail,
+fromActions.RemoveAddressesFail,
     (state, { errorMsg }) => {
       return {
         ...state,
@@ -99,6 +124,8 @@ export function reducer(state: AddressState | undefined, action: Action) {
 }
 export const selectAddressLoading = (state: AddressState) => state.loading;
 export const selectAddressLoaded = (state: AddressState) => state.loaded;
+export const selectAddressImageHeader = (state: AddressState) => state.imageHeader;
+export const selectAddressImageFooter = (state: AddressState) => state.imageFooter;
 export const selectAddressErrorMsg = (state: AddressState) => state.errorMsg;
 
 const {

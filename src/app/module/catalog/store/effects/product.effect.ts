@@ -99,7 +99,7 @@ export class ProductEffect {
     )
   );
 
-  updateCompanyAndSetCompanyImageSuccess$ = createEffect(() =>
+  updateProductAndSetProductImageSuccess$ = createEffect(() =>
     this._actions$.pipe(
       ofType(productActions.UpdateProductSuccess, productActions.SetProductImageSuccess),
       map(action => {
@@ -136,7 +136,7 @@ export class ProductEffect {
     )
   );
 
-  setCompanyLogoSuccess$ = createEffect(() =>
+  setProductLogoSuccess$ = createEffect(() =>
     this._actions$.pipe(
       ofType(productActions.SetProductImageSuccess),
       map(action => {
@@ -145,7 +145,7 @@ export class ProductEffect {
     )
   );
 
-  downloadCompanyLogo$ = createEffect(() =>
+  downloadProductLogo$ = createEffect(() =>
     this._actions$.pipe(
       ofType(productActions.DownloadProductImage),
       exhaustMap(action =>

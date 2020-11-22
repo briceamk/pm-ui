@@ -1,1 +1,8 @@
-<p>address-tree-view works!</p>
+<pm-address-tree
+  [error]="error$ | async"
+  [loading]="loading$ | async"
+  [addresses]="addresses$ | async"
+  (removes)="onRemoves($event)"
+  (navigate)="onNavigate($event)"
+>
+</pm-address-tree>

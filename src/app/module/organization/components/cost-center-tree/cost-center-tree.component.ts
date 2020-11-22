@@ -3,6 +3,10 @@ import {CostCenter} from '@module/organization/models';
 import * as fromShare from '@app/share';
 import {ToastrService} from 'ngx-toastr';
 import {Title} from '@angular/platform-browser';
+import {MatDialog} from '@angular/material/dialog';
+import {DialogConfig} from '@share/models';
+import {dialogConfig} from '@share/utils/dialog-config';
+import {DialogComponent} from '@share/components';
 
 @Component({
   selector: 'pm-cost-center-tree',
@@ -22,7 +26,7 @@ export class CostCenterTreeComponent implements OnInit {
   newRoute = `/organization/cost-centers/new`;
   transformedCostCenters: any[] = [];
 
-  constructor(private _toastr: ToastrService, private _title: Title) {
+  constructor(private _toastr: ToastrService, private _title: Title, private _dialog: MatDialog) {
     this._title.setTitle('Centres de coût - PM');
   }
 
@@ -69,7 +73,17 @@ export class CostCenterTreeComponent implements OnInit {
   }
 
   onRemoves($event: CostCenter[]) {
-    this.removes.emit($event.map(event => event.id));
+    const dialog: DialogConfig = {...dialogConfig,
+      message: $event.length !==1? 'Confimer la suppression de ces centres de coût?': 'Confimer la suppression de ce centre de coût?'};
+    const dialogRef = this._dialog.open(DialogComponent, {
+      disableClose: dialog.disableClose,
+      data: dialog
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult)
+        this.removes.emit($event.map(event => event.id));
+    });
   }
 
   transform(costCenter: CostCenter): any {

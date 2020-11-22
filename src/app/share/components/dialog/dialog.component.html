@@ -1,0 +1,31 @@
+
+<div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
+
+    <div fxFlex fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center" mat-dialog-title>
+      <!--<mat-icon class="icon-title" fxFlex  *ngIf="dialogConfig.iconName"  >{{dialogConfig.iconName}}</mat-icon>-->
+      <div fxFlex></div>
+      <div fxFlex></div>
+      <div fxFlex></div>
+      <h1 fxFlex>{{dialogConfig.title}}</h1>
+      <p fxFlex>{{dialogConfig.message}}</p>
+    </div>
+
+  <div fxFlex fxLayout="row" fxLayoutGap="10px" mat-dialog-actions>
+    <span *ngFor="let button of dialogConfig.buttons">
+        <button fxFlex *ngIf="button.type === 'basic'" mat-button (click)="onClick(button.result)" [color]="button.color">{{button.name}}</button>
+        <button fxFlex *ngIf="button.type === 'raised'" mat-raised-button (click)="onClick(button.result)" [color]="button.color">{{button.name}}</button>
+        <button fxFlex *ngIf="button.type === 'stroked'" mat-stroked-button (click)="onClick(button.result)" [color]="button.color">{{button.name}}</button>
+        <button fxFlex *ngIf="button.type === 'flat'" mat-flat-button (click)="onClick(button.result)" [color]="button.color">{{button.name}}</button>
+        <button fxFlex *ngIf="button.type === 'icon'" mat-icon-button (click)="onClick(button.result)" [color]="button.color">
+          <mat-icon>{{button.iconName}}</mat-icon>
+        </button>
+        <button fxFlex *ngIf="button.type === 'fab'" mat-fab (click)="onClick(button.result)" [color]="button.color">
+          <mat-icon>{{button.iconName}}</mat-icon>
+        </button>
+        <button fxFlex *ngIf="button.type === 'minifab'" mat-mini-fab (click)="onClick(button.result)" [color]="button.color">
+          <mat-icon>{{button.iconName}}</mat-icon>
+        </button>
+    </span>
+  </div>
+
+</div>

@@ -3,6 +3,10 @@ import {Workflow} from '@module/organization/models';
 import * as fromShare from '@app/share';
 import {ToastrService} from 'ngx-toastr';
 import {Title} from '@angular/platform-browser';
+import {MatDialog} from '@angular/material/dialog';
+import {DialogConfig} from '@share/models';
+import {dialogConfig} from '@share/utils/dialog-config';
+import {DialogComponent} from '@share/components';
 
 @Component({
   selector: 'pm-workflow-tree',
@@ -22,7 +26,7 @@ export class WorkflowTreeComponent implements OnInit {
   newRoute = `/organization/workflows/new`;
   transformedWorkflows: any[] = [];
 
-  constructor(private _toastr: ToastrService, private _title: Title) {
+  constructor(private _toastr: ToastrService, private _title: Title, private _dialog: MatDialog) {
     this._title.setTitle('Workflows - PM');
   }
 
@@ -64,7 +68,18 @@ export class WorkflowTreeComponent implements OnInit {
   }
 
   onRemoves($event: Workflow[]) {
-    this.removes.emit($event.map(event => event.id));
+    const dialog: DialogConfig = {...dialogConfig,
+      message: $event.length !==1? 'Confimer la suppression de ces circuits de validation?': 'Confimer la suppression de ce circuit de validation' +
+        '?'};
+    const dialogRef = this._dialog.open(DialogComponent, {
+      disableClose: dialog.disableClose,
+      data: dialog
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult)
+        this.removes.emit($event.map(event => event.id));
+    });
   }
 
   transform(workflow: Workflow): any {

@@ -6,6 +6,10 @@ import {Title} from '@angular/platform-browser';
 import {JobInfo} from '@module/cron/models';
 import * as fromShare from '@share/index';
 import {jobInfoStateLabels} from '@module/cron/constants';
+import {MatDialog} from '@angular/material/dialog';
+import {DialogConfig} from '@share/models';
+import {dialogConfig} from '@share/utils/dialog-config';
+import {DialogComponent} from '@share/components';
 
 
 @Component({
@@ -26,7 +30,7 @@ export class JobInfoTreeComponent implements OnInit, OnChanges {
   title: string;
   newRoute = `/cron/job-infos/new`;
 
-  constructor(private _toastr: ToastrService, private _title: Title) {
+  constructor(private _toastr: ToastrService, private _title: Title, private _dialog: MatDialog) {
     this._title.setTitle('Tâches planifiées - PM');
   }
 
@@ -75,7 +79,17 @@ export class JobInfoTreeComponent implements OnInit, OnChanges {
   }
 
   onRemoves($event: JobInfo[]) {
-    this.removes.emit($event.map(event => event.id));
+    const dialog: DialogConfig = {...dialogConfig,
+      message: $event.length !==1? 'Confimer la suppression de ces tâches planifiées?': 'Confimer la suppression de cette tâche planifiée?'};
+    const dialogRef = this._dialog.open(DialogComponent, {
+      disableClose: dialog.disableClose,
+      data: dialog
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult)
+        this.removes.emit($event.map(event => event.id));
+    });
   }
 
   transform(jobInfo: JobInfo): JobInfo {

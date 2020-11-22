@@ -45,6 +45,16 @@ export const selectAddressLoading = createSelector(
   fromAddress.selectAddressLoading
 );
 
+export const selectAddressImageHeader = createSelector(
+  selectAddressState,
+  fromAddress.selectAddressImageHeader
+);
+
+export const selectAddressImageFooter = createSelector(
+  selectAddressState,
+  fromAddress.selectAddressImageFooter
+);
+
 export const selectAddressErrorMsg = createSelector(
   selectAddressState,
   fromAddress.selectAddressErrorMsg

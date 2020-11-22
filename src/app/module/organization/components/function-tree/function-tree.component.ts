@@ -4,6 +4,10 @@ import * as fromShare from '@app/share';
 import {ToastrService} from 'ngx-toastr';
 import {Title} from '@angular/platform-browser';
 import {functionLabelTypes} from '@module/organization/constants';
+import {MatDialog} from '@angular/material/dialog';
+import {DialogConfig} from '@share/models';
+import {dialogConfig} from '@share/utils/dialog-config';
+import {DialogComponent} from '@share/components';
 
 @Component({
   selector: 'pm-function-tree',
@@ -23,7 +27,7 @@ export class FunctionTreeComponent implements OnInit {
   newRoute = `/organization/functions/new`;
   transformedFunctions: any[] = [];
 
-  constructor(private _toastr: ToastrService, private _title: Title) {
+  constructor(private _toastr: ToastrService, private _title: Title, private _dialog: MatDialog) {
     this._title.setTitle('Functions - PM');
   }
 
@@ -70,7 +74,17 @@ export class FunctionTreeComponent implements OnInit {
   }
 
   onRemoves($event: Function[]) {
-    this.removes.emit($event.map(event => event.id));
+    const dialog: DialogConfig = {...dialogConfig,
+      message: $event.length !==1? 'Confimer la suppression de ces rôles?': 'Confimer la suppression de cet rôle?'};
+    const dialogRef = this._dialog.open(DialogComponent, {
+      disableClose: dialog.disableClose,
+      data: dialog
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult)
+        this.removes.emit($event.map(event => event.id));
+    });
   }
 
   transform(_function: Function): any {

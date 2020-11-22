@@ -1,13 +1,14 @@
 import {User} from '@module/auth/models';
 import {CostCenter} from '@module/organization/models/cost-center';
 import {Level} from '@module/organization/models/level';
+import {Department} from '@module/organization/models/department';
 
 export interface Step {
   id: string;
   sequence: string;
   type: string;
   user: User;
-  department: any; //TODO change to Department
+  department: Department;
   costCenter: CostCenter;
   level: Level;
 }

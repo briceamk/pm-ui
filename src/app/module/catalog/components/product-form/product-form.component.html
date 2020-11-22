@@ -54,6 +54,14 @@
     <mat-card fxLayout="column" fxFlex="40%" class="mat-elevation-z15">
       <mat-form-field  fxFlex>
         <input type="text" matInput placeholder="Reference" formControlName="reference"/>
+        <mat-error
+          *ngIf="required('reference')"
+          class="text-danger"
+        >
+          <span *ngIf="required('reference')"
+          >La référence est obligatoire</span
+          >
+        </mat-error>
         <mat-error *ngIf="error && error.reference">
           {{error.reference}}
         </mat-error>
@@ -113,7 +121,7 @@
     </mat-card>
   </div>
   <div fxLayout="column" fxLayoutGap="10px" fxFlex>
-    <mat-card fxLayout="column" fxFlex>
+    <mat-card fxLayout="column" fxFlex class="mat-elevation-z15">
       <div fxFlex></div>
       <div fxFlex></div>
       <quill-editor fxFlex  formControlName="description" ></quill-editor>

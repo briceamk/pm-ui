@@ -22,6 +22,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatOptionModule} from '@angular/material/core';
+import { MatDialogModule} from '@angular/material/dialog';
+import {MatTabsModule} from '@angular/material/tabs';
 
 const materials = [
   MatFormFieldModule,
@@ -46,7 +48,8 @@ const materials = [
   MatDatepickerModule,
   MatChipsModule,
   MatOptionModule,
-
+  MatDialogModule,
+  MatTabsModule
 ];
 
 

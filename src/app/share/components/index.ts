@@ -7,6 +7,8 @@ import { SidebarComponent } from '@share/components/sidebar/sidebar.component';
 import {TableComponent} from '@share/components/table/table.component';
 import {ChipAutocompleteComponent} from '@share/components/chip-autocomplete/chip-autocomplete.component';
 import {AutocompleteComponent} from '@share/components/autocomplete/autocomplete.component';
+import {DialogComponent} from '@share/components/dialog/dialog.component';
+import {DialogFormComponent} from '@share/components/dialog-form/dialog-form.component';
 
 
 export const components: any[] = [
@@ -18,7 +20,9 @@ export const components: any[] = [
   ChipAutocompleteComponent,
   SidebarComponent,
   TableComponent,
-  AutocompleteComponent
+  AutocompleteComponent,
+  DialogComponent,
+  DialogFormComponent
 ];
 
 export * from '@share/components/header/header.component';
@@ -30,3 +34,5 @@ export * from '@share/components/sidebar/sidebar.component';
 export * from '@share/components/chip-autocomplete/chip-autocomplete.component';
 export * from '@share/components/table/table.component';
 export * from '@share/components/autocomplete/autocomplete.component';
+export * from '@share/components/dialog/dialog.component';
+export * from '@share/components/dialog-form/dialog-form.component';

@@ -30,4 +30,22 @@ export class AddressService {
       API_URL_ORGANIZATION + `/address/many/${ids}`
     );
   }
+
+  upload(id: string, image: File, field: string): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('image', image, image.name);
+    formData.append('field', field);
+    return this._http.put<any>(
+      API_URL_ORGANIZATION + `/addresses/upload/${id}`,
+      formData
+    );
+  }
+
+  download(id: string, field: string): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('field', field);
+    return this._http.get<any>(
+      API_URL_ORGANIZATION + `/addresses/download/string/${id}`, {params: {'field': field}}
+    );
+  }
 }

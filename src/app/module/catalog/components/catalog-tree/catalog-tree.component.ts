@@ -3,6 +3,10 @@ import {Title} from '@angular/platform-browser';
 import {Catalog} from '@module/catalog/models';
 import * as fromShare from '@app/share';
 import {ToastrService} from 'ngx-toastr';
+import {MatDialog} from '@angular/material/dialog';
+import {DialogConfig} from '@share/models';
+import {dialogConfig} from '@share/utils/dialog-config';
+import {DialogComponent} from '@share/components';
 
 @Component({
   selector: 'pm-catalog-tree',
@@ -23,7 +27,7 @@ export class CatalogTreeComponent implements OnInit, OnChanges {
   newRoute = `/catalog/catalogs/new`;
   transformedCatalogs: any[] = [];
 
-  constructor(private _toastr: ToastrService, private _title: Title) {
+  constructor(private _toastr: ToastrService, private _title: Title, private _dialog: MatDialog) {
     this._title.setTitle('Catalogues - PM');
   }
 
@@ -65,7 +69,17 @@ export class CatalogTreeComponent implements OnInit, OnChanges {
   }
 
   onRemoves($event: Catalog[]) {
-    this.removes.emit($event.map(event => event.id));
+    const dialog: DialogConfig = {...dialogConfig,
+      message: $event.length !==1? 'Confimer la suppression de ces catalogues?': 'Confimer la suppression de ce catalogue?'};
+    const dialogRef = this._dialog.open(DialogComponent, {
+      disableClose: dialog.disableClose,
+      data: dialog
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult)
+        this.removes.emit($event.map(event => event.id));
+    });
   }
 
   transform(catalog: Catalog): any {

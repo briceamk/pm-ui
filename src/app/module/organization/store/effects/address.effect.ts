@@ -139,6 +139,64 @@ export class AddressEffect {
   );
 
 
+  setAddressImage$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(addressActions.SetAddressImage),
+      exhaustMap(action =>
+        this._addressService.upload(action.id, action.image, action.field).pipe(
+          map((addressMap: any) =>
+            addressActions.SetAddressImageSuccess({
+              address: { id: addressMap['address'].id, changes: addressMap['address'] }, field: addressMap['field']
+            })
+          ),
+          tap(() => {
+            this._toastr.info(
+              'Image mis à jour correctement',
+              'PM'
+            );
+          }),
+          catchError((error: any) =>
+            of(
+              addressActions.SetAddressImageFail({
+                errorMsg: error.error
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  setAddressImageSuccess$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(addressActions.SetAddressImageSuccess),
+      map(action => {
+        return addressActions.DownloadAddressImage({id: action.address.id as string, field: action.field});
+      })
+    )
+  );
+
+  downloadAddressImage$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(addressActions.DownloadAddressImage),
+      exhaustMap(action =>
+        this._addressService.download(action.id, action.field).pipe(
+          map((imageMap: any) =>
+            addressActions.DownloadAddressImageSuccess({image: imageMap['image'], field: imageMap['field']})
+          ),
+          catchError((error: any) =>
+            of(
+              addressActions.DownloadAddressImageFail({
+                errorMsg: error.error
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+
   removeAddresses$ = createEffect(() =>
     this._actions$.pipe(
       ofType(addressActions.RemoveAddresses),

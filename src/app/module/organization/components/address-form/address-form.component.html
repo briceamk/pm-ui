@@ -1,1 +1,171 @@
-<p>address-form works!</p>
+<form [formGroup]="form"  fxLayout="column" fxLayoutGap="20px">
+  <pm-form-action  fxFlex
+                   (save)="onSave($event)"
+                   (add)="onAdd($event)"
+                   (edit)="onEdit($event)"
+                   (removes)="onRemoves($event)"
+                   (cancel)="onCancel($event)"
+                   (first)="onNavigate($event)"
+                   (previous)="onNavigate($event)"
+                   (next)="onNavigate($event)"
+                   (last)="onNavigate($event)"
+                   [listViewLink]="listViewLink"
+                   [form]="form"
+                   [isValidForm]="form.valid"
+                   [disable]="isDisable"
+                   [data]="address"
+                   [dataEntities]="addressEntities"
+                   [title]="title"
+  ></pm-form-action>
+  <input type="hidden" formControlName="id" />
+  <div fxLayout="row" fxLayoutGap="10px" fxFlex>
+    <mat-card fxLayout="column" class="mat-elevation-z15" fxFlex>
+      <mat-form-field  fxFlex>
+        <input type="text" matInput placeholder="Libellé" formControlName="name"/>
+        <mat-error
+          *ngIf="required('name')"
+          class="text-danger"
+        >
+          <span *ngIf="required('name')"
+          >Le libellé est obligatoire</span
+          >
+        </mat-error>
+        <mat-error *ngIf="error && error.name">
+          {{error.name}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <input type="text" matInput placeholder="Titre" formControlName="title"/>
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <input type="text" matInput placeholder="Prénom" formControlName="firstName"/>
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <input type="text" matInput placeholder="Nom" formControlName="lastName"/>
+      </mat-form-field>
+      <div fxFlex></div>
+    </mat-card>
+    <mat-card fxLayout="column" class="mat-elevation-z15" fxFlex>
+      <mat-form-field  fxFlex>
+        <input type="text" matInput placeholder="Email" formControlName="email"/>
+        <mat-error
+          *ngIf="email('email')"
+          class="text-danger"
+        >
+          <span *ngIf="email('email')"
+          >Email invalide</span
+          >
+        </mat-error>
+        <mat-error *ngIf="error && error.email">
+          {{error.email}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <input type="text" matInput placeholder="Téléphone" formControlName="phone"/>
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <input type="text" matInput placeholder="Mobile" formControlName="mobile"/>
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <input type="text" matInput placeholder="Fax" formControlName="fax"/>
+      </mat-form-field>
+      <mat-form-field  fxFlex>
+        <input type="text" matInput placeholder="Site Web" formControlName="website"/>
+      </mat-form-field>
+    </mat-card>
+  </div>
+  <div fxLayout="row" fxLayoutGap="10px" fxFlex>
+     <mat-tab-group mat-align-tabs="start" fxFlex class="mat-elevation-z15">
+        <mat-tab label="Informations Complémentaires">
+          <div fxLayout="row" fxLayoutGap="20px" fxFlex></div>
+          <div fxLayout="row" fxLayoutGap="10px" fxFlex>
+            <mat-card fxLayout="column" class="mat-elevation-z15" fxFlex>
+              <mat-form-field  fxFlex>
+                <input type="text" matInput placeholder="Numéros de contribuable" formControlName="vat"/>
+              </mat-form-field>
+              <mat-form-field  fxFlex>
+                <input type="text" matInput placeholder="Registre de commerce" formControlName="trn"/>
+              </mat-form-field>
+              <div fxFlex></div>
+            </mat-card>
+            <mat-card fxLayout="column" class="mat-elevation-z15" fxFlex>
+              <mat-form-field  fxFlex>
+                <input type="text" matInput placeholder="Rue" formControlName="street"/>
+              </mat-form-field>
+              <mat-form-field  fxFlex>
+                <input type="text" matInput placeholder="Ville" formControlName="city"/>
+              </mat-form-field>
+              <mat-form-field  fxFlex>
+                <input type="text" matInput placeholder="Pays" formControlName="country"/>
+              </mat-form-field>
+            </mat-card>
+          </div>
+        </mat-tab>
+        <mat-tab label="Entête de pied de page">
+          <div fxLayout="row" fxLayoutGap="10px" fxFlex>
+            <mat-card fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center" fxFlex="50%">
+              <img
+                [src]="imageHeader"
+                [alt]="address && address.id? address.imageHeaderName : ''"
+                height="200px"
+                *ngIf="address && address.id !== '' && !loading"
+                fxFlex
+              />
+
+              <input
+                type="file"
+                id="imageHeader"
+                hidden
+                (change)="onUploadImage($event, 'header')"
+                fxFlex
+              />
+              <button
+                fxFlex
+                mat-icon-button
+                matTooltip="Modifier l'image de profile"
+                matTooltipPosition="right"
+                color="primary"
+                (click)="onChoosePicture('imageHeader')"
+                type="button"
+                *ngIf="address && address.id !== '' && !loading"
+              >
+                <mat-icon>create</mat-icon>
+              </button>
+              <mat-spinner [diameter]="20" *ngIf="loading"></mat-spinner>
+            </mat-card>
+            <mat-card fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center" fxFlex="50%">
+              <img
+                [src]="imageFooter"
+                [alt]="address && address.id? address.imageFooterName : ''"
+                height="200px"
+                *ngIf="address && address.id !== '' && !loading"
+                fxFlex
+              />
+              <input
+                type="file"
+                id="imageFooter"
+                hidden
+                (change)="onUploadImage($event, 'footer')"
+                fxFlex
+              />
+              <button
+                fxFlex
+                mat-icon-button
+                matTooltip="Modifier l'image de profile"
+                matTooltipPosition="right"
+                color="primary"
+                (click)="onChoosePicture('imageFooter')"
+                type="button"
+                *ngIf="address && address.id !== '' && !loading"
+              >
+                <mat-icon>create</mat-icon>
+              </button>
+              <mat-spinner [diameter]="20" *ngIf="loading"></mat-spinner>
+            </mat-card>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+  </div>
+  <div fxLayout="row" fxLayoutGap="40px" fxFlex></div>
+
+</form>

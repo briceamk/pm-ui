@@ -65,3 +65,34 @@ export const RemoveAddressesFail = createAction(
   '[Address API] Remove AddressesFails',
   props<{ errorMsg: any }>()
 );
+
+export const DownloadAddressImage = createAction(
+  '[Address Form] Download Address  Image',
+  props<{ id: string, field: string }>()
+);
+
+export const DownloadAddressImageSuccess = createAction(
+  '[Address API] Download Address Image Success',
+  props<{ image: any, field: string }>()
+);
+
+export const DownloadAddressImageFail = createAction(
+  '[Address API] Download Address Image Fail',
+  props<{ errorMsg: any }>()
+);
+
+export const SetAddressImage = createAction(
+  '[Address Form] Set Address Image',
+  props<{ id: string; image: File, field: string }>()
+);
+
+export const SetAddressImageSuccess = createAction(
+  '[Address API] Set Address Image Success',
+  props<{ address: Update<Address>, field: string }>()
+);
+
+export const SetAddressImageFail = createAction(
+  '[Address API] Set Address Image Fail',
+  props<{ errorMsg: any }>()
+);
+

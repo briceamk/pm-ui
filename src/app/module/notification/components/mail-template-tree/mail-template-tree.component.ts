@@ -6,6 +6,10 @@ import {Title} from '@angular/platform-browser';
 import {MailTemplate} from '@module/notification/models';
 import * as fromShare from '@share/index';
 import {mailTemplateTypeLabels} from '@module/notification/constants';
+import {MatDialog} from '@angular/material/dialog';
+import {DialogConfig} from '@share/models';
+import {dialogConfig} from '@share/utils/dialog-config';
+import {DialogComponent} from '@share/components';
 
 
 @Component({
@@ -29,7 +33,7 @@ export class MailTemplateTreeComponent implements OnInit, OnChanges {
   newRoute: string = '/notification/mail-templates/new';
   transformedMailTemplates: any[] = [];
 
-  constructor(private _toastr: ToastrService, private _title: Title) {
+  constructor(private _toastr: ToastrService, private _title: Title, private _dialog: MatDialog) {
     this._title.setTitle('Modèles d\'emails - PM');
   }
 
@@ -76,7 +80,17 @@ export class MailTemplateTreeComponent implements OnInit, OnChanges {
   }
 
   onRemoves($event: MailTemplate[]) {
-    this.removes.emit($event.map(event => event.id));
+    const dialog: DialogConfig = {...dialogConfig,
+      message: $event.length !==1? 'Confimer la suppression de ces modèles d\'email?': 'Confimer la suppression de ce modèle d\'email?'};
+    const dialogRef = this._dialog.open(DialogComponent, {
+      disableClose: dialog.disableClose,
+      data: dialog
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult)
+        this.removes.emit($event.map(event => event.id));
+    });
 
   }
 

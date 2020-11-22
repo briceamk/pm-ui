@@ -15,6 +15,10 @@ import { Title } from '@angular/platform-browser';
 import { Mail } from '@module/notification/models';
 import * as fromShare from '@share/index';
 import { mailStateLabels } from '@module/notification/constants';
+import {MatDialog} from '@angular/material/dialog';
+import {DialogConfig} from '@share/models';
+import {dialogConfig} from '@share/utils/dialog-config';
+import {DialogComponent} from '@share/components';
 
 
 @Component({
@@ -37,7 +41,7 @@ export class MailTreeComponent implements OnInit, OnChanges {
   newRoute = `/notification/mails/new`;
   transformedMails: any[] = [];
 
-  constructor(private _toastr: ToastrService, private _title: Title) {
+  constructor(private _toastr: ToastrService, private _title: Title, private _dialog: MatDialog) {
     this._title.setTitle('Emails - PM');
   }
 
@@ -96,7 +100,17 @@ export class MailTreeComponent implements OnInit, OnChanges {
   }
 
   onRemoves($event: Mail[]): void {
-    this.removes.emit($event.map((event) => event.id));
+    const dialog: DialogConfig = {...dialogConfig,
+      message: $event.length !==1? 'Confimer la suppression de ces emails?': 'Confimer la suppression de cet email?'};
+    const dialogRef = this._dialog.open(DialogComponent, {
+      disableClose: dialog.disableClose,
+      data: dialog
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult)
+        this.removes.emit($event.map(event => event.id));
+    });
   }
 
   transform(mail: Mail): any {

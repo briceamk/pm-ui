@@ -14,36 +14,36 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: './module/dashboard/dashboard.module#DashboardModule',
+        loadChildren: async () => (await import( './module/dashboard/dashboard.module')).DashboardModule,
         canActivate: [AuthGuard]
       },
       {
         path: 'auth',
-        loadChildren: './module/auth/auth.module#AuthModule'
+        loadChildren: async () => (await import( './module/auth/auth.module')).AuthModule,
       },
       {
         path: 'company',
-        loadChildren: './module/company/company.module#CompanyModule',
+        loadChildren: async () => (await import( './module/company/company.module')).CompanyModule,
         canActivate: [AuthGuard]
       },
       {
         path: 'catalog',
-        loadChildren: './module/catalog/catalog.module#CatalogModule',
+        loadChildren: async () => (await import( './module/catalog/catalog.module')).CatalogModule,
         canActivate: [AuthGuard]
       },
       {
         path: 'cron',
-        loadChildren: './module/cron/cron.module#CronModule',
+        loadChildren: async () => (await import( './module/cron/cron.module')).CronModule,
         canActivate: [AuthGuard]
       },
       {
         path: 'notification',
-        loadChildren: './module/notification/notification.module#NotificationModule',
+        loadChildren: async () =>  (await import( './module/notification/notification.module')).NotificationModule,
         canActivate: [AuthGuard]
       },
       {
         path: 'organization',
-        loadChildren: './module/organization/organization.module#OrganizationModule',
+        loadChildren: async () => (await import( './module/organization/organization.module')).OrganizationModule ,
         canActivate: [AuthGuard]
       },
       {
@@ -56,7 +56,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})],
+  imports: [RouterModule.forRoot(routes, )],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

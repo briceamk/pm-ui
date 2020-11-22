@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from '@app/app-routing.module';
 import {DefaultModule} from '@layout/default/default.module';
-import { AppComponent } from '@app/app.component';
+import {AppComponent} from '@app/app.component';
 
 
 import {

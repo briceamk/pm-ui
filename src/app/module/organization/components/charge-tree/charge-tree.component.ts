@@ -3,6 +3,10 @@ import {Charge} from '@module/organization/models';
 import * as fromShare from '@app/share';
 import {ToastrService} from 'ngx-toastr';
 import {Title} from '@angular/platform-browser';
+import {DialogConfig} from '@share/models';
+import {dialogConfig} from '@share/utils/dialog-config';
+import {DialogComponent} from '@share/components';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'pm-charge-tree',
@@ -22,7 +26,7 @@ export class ChargeTreeComponent implements OnInit {
   newRoute = `/organization/charges/new`;
   transformedCharges: any[] = [];
 
-  constructor(private _toastr: ToastrService, private _title: Title) {
+  constructor(private _toastr: ToastrService, private _title: Title, private _dialog: MatDialog) {
     this._title.setTitle('Charges - PM');
   }
 
@@ -64,7 +68,17 @@ export class ChargeTreeComponent implements OnInit {
   }
 
   onRemoves($event: Charge[]) {
-    this.removes.emit($event.map(event => event.id));
+    const dialog: DialogConfig = {...dialogConfig,
+      message: $event.length !==1? 'Confimer la suppression de ces charges?': 'Confimer la suppression de cette charge?'};
+    const dialogRef = this._dialog.open(DialogComponent, {
+      disableClose: dialog.disableClose,
+      data: dialog
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult)
+        this.removes.emit($event.map(event => event.id));
+    });
   }
 
   transform(charge: Charge): any {
