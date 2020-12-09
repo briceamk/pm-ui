@@ -184,7 +184,7 @@ export class ChipAutocompleteComponent implements OnInit, ControlValueAccessor, 
   }
 
   /**
-   * Function to call when the input is touched.
+   * Role to call when the input is touched.
    */
   onTouched() {}
 

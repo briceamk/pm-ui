@@ -60,7 +60,7 @@ export class SidebarComponent implements AfterViewInit, OnInit {
         {
           displayName: 'Roles Master',
           iconName: 'rule',
-          route: '/organization/functions'
+          route: '/organization/roles'
         },
         {
           displayName: 'Adresses',
@@ -159,9 +159,7 @@ export class SidebarComponent implements AfterViewInit, OnInit {
           : this.profile.lastName;
       this.email = this.profile.email;
       // where we set default menu to display depending authorities of logged profile
-      this.authorities = this.profile.authorities.map(
-        (authority: any) => authority.authority
-      );
+      this.authorities = this.profile.authorities;
       this.navItems = this.navItems.map((navItem) =>
         this.checkNavItemAuthority(navItem)
       );

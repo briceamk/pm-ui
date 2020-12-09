@@ -5,30 +5,30 @@ import { of } from 'rxjs';
 import { map, exhaustMap, catchError, mergeMap, tap } from 'rxjs/operators';
 
 import * as fromRoot from '@store/index';
-import * as functionActions from '@module/organization/store/actions/function.action';
+import * as roleActions from '@module/organization/store/actions/role.action';
 import * as fromServices from '@module/organization/services';
-import { Function } from '@module/organization/models';
+import { Role } from '@module/organization/models';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
-export class FunctionEffect {
+export class RoleEffect {
   constructor(
     private _actions$: Actions,
-    private _functionService: fromServices.FunctionService,
+    private roleService: fromServices.RoleService,
     private _toastr: ToastrService
   ) {}
 
-  loadFunctions$ = createEffect(() =>
+  loadRoles$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(functionActions.LoadFunctions),
+      ofType(roleActions.LoadRoles),
       exhaustMap(() =>
-        this._functionService.findAll().pipe(
-          map((_functions: any) =>
-            functionActions.LoadFunctionsSuccess({ _functions: _functions['content'] as Function[]})
+        this.roleService.findAll().pipe(
+          map((roles: any) =>
+            roleActions.LoadRolesSuccess({ roles: roles['content'] as Role[]})
           ),
           catchError((error: any) =>
             of(
-              functionActions.LoadFunctionsFail({
+              roleActions.LoadRolesFail({
                 errorMsg: error.error
               })
             )
@@ -38,20 +38,20 @@ export class FunctionEffect {
     )
   );
 
-  createFunction$ = createEffect(() =>
+  createRole$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(functionActions.CreateFunction),
-      mergeMap(({ _function }) =>
-        this._functionService.create(_function).pipe(
-          map((newFunction: Function) =>
-            functionActions.CreateFunctionSuccess({ _function: newFunction })
+      ofType(roleActions.CreateRole),
+      mergeMap(({ role }) =>
+        this.roleService.create(role).pipe(
+          map((newRole: Role) =>
+            roleActions.CreateRoleSuccess({ role: newRole })
           ),
           tap(() => {
-            this._toastr.success('Role crée correctement', 'PM');
+            this._toastr.success('Permission crée correctement', 'PM');
           }),
           catchError((error: any) =>
             of(
-              functionActions.CreateFunctionFail({
+              roleActions.CreateRoleFail({
                 errorMsg: error.error
               })
             )
@@ -61,36 +61,36 @@ export class FunctionEffect {
     )
   );
 
-  createFunctionSuccess$ = createEffect(() =>
+  createRoleSuccess$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(functionActions.CreateFunctionSuccess),
+      ofType(roleActions.CreateRoleSuccess),
       map(action => {
         return fromRoot.GO({
-          path: ['/organization/functions/details', action._function.id]
+          path: ['/organization/roles/details', action.role.id]
         });
       })
     )
   );
 
-  updateFunction$ = createEffect(() =>
+  updateRole$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(functionActions.UpdateFunction),
+      ofType(roleActions.UpdateRole),
       exhaustMap(action =>
-        this._functionService.update(action._function).pipe(
-          map((_function: Function) =>
-            functionActions.UpdateFunctionSuccess({
-              _function: { id: _function.id, changes: _function }
+        this.roleService.update(action.role).pipe(
+          map((role: Role) =>
+            roleActions.UpdateRoleSuccess({
+              role: { id: role.id, changes: role }
             })
           ),
           tap(() => {
             return this._toastr.info(
-              'Role mis à jour correctement',
+              'Permission mis à jour correctement',
               'PM'
             );
           }),
           catchError((error: any) =>
             of(
-              functionActions.UpdateFunctionFail({
+              roleActions.UpdateRoleFail({
                 errorMsg: error.error
               })
             )
@@ -100,23 +100,23 @@ export class FunctionEffect {
     )
   );
 
-  removeFunction$ = createEffect(() =>
+  removeRole$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(functionActions.RemoveFunction),
+      ofType(roleActions.RemoveRole),
       exhaustMap(action =>
-        this._functionService.removes(action.ids).pipe(
+        this.roleService.removes(action.ids).pipe(
           map((ids: string[]) =>
-            functionActions.RemoveFunctionSuccess({ ids })
+            roleActions.RemoveRoleSuccess({ ids })
           ),
           tap(() => {
             return this._toastr.error(
-              'Role supprimée correctement',
+              'Permission supprimée correctement',
               'PM'
             );
           }),
           catchError((error: any) =>
             of(
-              functionActions.RemoveFunctionFail({
+              roleActions.RemoveRoleFail({
                 errorMsg: error.error
               })
             )
@@ -127,25 +127,25 @@ export class FunctionEffect {
   );
 
 
-  removeFunctionSuccess$ = createEffect(() =>
+  removeRoleSuccess$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(functionActions.RemoveFunctionSuccess),
+      ofType(roleActions.RemoveRoleSuccess),
       map(action => {
         return fromRoot.GO({
-          path: ['/organization/functions/new']
+          path: ['/organization/roles/new']
         });
       })
     )
   );
 
 
-  removeFunctions$ = createEffect(() =>
+  removeRoles$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(functionActions.RemoveFunctions),
+      ofType(roleActions.RemoveRoles),
       exhaustMap(action =>
-        this._functionService.removes(action.ids).pipe(
+        this.roleService.removes(action.ids).pipe(
           map((ids: string[]) =>
-            functionActions.RemoveFunctionsSuccess({ ids })
+            roleActions.RemoveRolesSuccess({ ids })
           ),
           tap(() => {
             return this._toastr.error(
@@ -155,7 +155,7 @@ export class FunctionEffect {
           }),
           catchError((error: any) =>
             of(
-              functionActions.RemoveFunctionsFail({
+              roleActions.RemoveRolesFail({
                 errorMsg: error.error
               })
             )

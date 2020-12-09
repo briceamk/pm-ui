@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs';
-import {Address} from '@module/organization/models';
+import {Address, Image} from '@module/organization/models';
 import {Dictionary} from '@ngrx/entity';
 import {Store} from '@ngrx/store';
 import * as fromStore from '@module/organization/store';
@@ -17,16 +17,14 @@ export class AddressFormViewComponent implements OnInit {
   addressEntities$: Observable<Dictionary<Address>>;
   loading$: Observable<boolean>;
   error$: Observable<any>;
-  imageHeader$: Observable<any>;
-  imageFooter$: Observable<any>;
+  image$: Observable<Image>;
 
   constructor(private _store: Store<fromStore.OrganizationState>) { }
 
   ngOnInit(): void {
     this.loading$ = this._store.select(fromStore.selectAddressLoading);
     this.error$ = this._store.select(fromStore.selectAddressErrorMsg);
-    this.imageHeader$ = this._store.select(fromStore.selectAddressImageHeader);
-    this.imageFooter$ = this._store.select(fromStore.selectAddressImageFooter);
+    this.image$ = this._store.select(fromStore.selectAddressImage);
     this.address$ = this._store.select(fromStore.selectSelectedAddress);
     this.addressEntities$ = this._store.select(fromStore.selectAddressEntities);
   }

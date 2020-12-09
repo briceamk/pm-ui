@@ -6,7 +6,7 @@ import {Partner} from '@module/organization/models/partner';
 export interface Address{
 id: string;
 name: string;
-type: string; // can be invoicing or shipping
+type: 'INVOICING' | 'SHIPPING';
 vat: string;
 trn: string;
 title: string;

@@ -27,11 +27,11 @@ export class ChargeTreeComponent implements OnInit {
   transformedCharges: any[] = [];
 
   constructor(private _toastr: ToastrService, private _title: Title, private _dialog: MatDialog) {
-    this._title.setTitle('Charges - PM');
+    this._title.setTitle('Types de charge - PM');
   }
 
   ngOnInit(): void {
-    this.title = "Charges";
+    this.title = "Type de charge";
     this.paginationSetting.enablePagination = true;
     this.paginationSetting.pageSize = 60;
     this.paginationSetting.pageSizeOptions = [60, 100, 200, 500];

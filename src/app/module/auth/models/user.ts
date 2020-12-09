@@ -1,6 +1,6 @@
 
 import {Company} from '@module/company/models';
-import {Role} from '@module/auth/models/role';
+import {Permission} from '@module/auth/models/permission';
 
 export interface User {
   id: string;
@@ -15,5 +15,5 @@ export interface User {
   credentialsNonExpired: boolean;
   enable: boolean;
   companyDto: Company;
-  roleDtos: Role[];
+  roleDtos: Permission[];
 }

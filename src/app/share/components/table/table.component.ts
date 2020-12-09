@@ -138,7 +138,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
       moment.ISO_8601,
       "MM/DD/YYYY  :)  HH*mm*ss"
     ];
-    return moment(value, formats, true).isValid();;
+    return moment(value, formats, true).isValid();
   }
 
   onDelete() {

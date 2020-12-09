@@ -6,12 +6,12 @@ import {
 
 import * as fromRoot from '@store/index';
 import * as fromAuth from '@module/auth/store/reducers/auth.reducer';
-import * as fromRole from '@module/auth/store/reducers/role.reducer';
+import * as fromPermission from '@module/auth/store/reducers/permission.reducer';
 import * as fromUser from '@module/auth/store/reducers/user.reducer';
 
 export interface SecurityState {
   auth: fromAuth.AuthState;
-  roles: fromRole.RoleState;
+  permissions: fromPermission.PermissionState;
   users: fromUser.UserState;
 }
 
@@ -22,7 +22,7 @@ export interface State extends fromRoot.State {
 export function reducers(state: SecurityState | undefined, action: Action) {
   return combineReducers({
     auth: fromAuth.authReducer,
-    roles: fromRole.roleReducer,
+    permissions: fromPermission.permissionReducer,
     users: fromUser.userReducer
   })(state, action);
 }

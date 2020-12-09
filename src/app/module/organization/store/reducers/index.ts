@@ -9,7 +9,7 @@ import * as fromAddress from '@module/organization/store/reducers/address.reduce
 import * as fromCharge from '@module/organization/store/reducers/charge.reducer';
 import * as fromCostCenter from '@module/organization/store/reducers/cost-center.reducer';
 import * as fromDepartment from '@module/organization/store/reducers/department.reducer';
-import * as fromFunction from '@module/organization/store/reducers/function.reducer';
+import * as fromRole from '@module/organization/store/reducers/role.reducer';
 import * as fromLevel from '@module/organization/store/reducers/level.reducer';
 import * as fromStep from '@module/organization/store/reducers/step.reducer';
 import * as fromWorkflow from '@module/organization/store/reducers/workflow.reducer';
@@ -19,7 +19,7 @@ export interface OrganizationState {
   charges: fromCharge.ChargeState;
   costCenters: fromCostCenter.CostCenterState;
   departments: fromDepartment.DepartmentState;
-  functions: fromFunction.FunctionState;
+  roles: fromRole.RoleState;
   levels: fromLevel.LevelState;
   steps: fromStep.StepState;
   workflows: fromWorkflow.WorkflowState;
@@ -35,7 +35,7 @@ export function reducers(state: OrganizationState | undefined, action: Action) {
     charges: fromCharge.chargeReducer,
     costCenters: fromCostCenter.costCenterReducer,
     departments: fromDepartment.departmentReducer,
-    functions: fromFunction.functionReducer,
+    roles: fromRole.roleReducer,
     levels: fromLevel.levelReducer,
     steps: fromStep.stepReducer,
     workflows: fromWorkflow.workflowReducer,

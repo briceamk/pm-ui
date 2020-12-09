@@ -1,4 +1,4 @@
-export interface Role {
+export interface Permission {
   id: string;
   code: string;
   name: string;

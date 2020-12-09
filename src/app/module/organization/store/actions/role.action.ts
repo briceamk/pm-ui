@@ -1,7 +1,6 @@
-import {createAction, props} from '@ngrx/store';
-import {Update} from '@ngrx/entity';
-import {Role} from '@module/auth/models';
-
+import { createAction, props } from '@ngrx/store';
+import { Role } from '@module/organization/models'
+import { Update } from '@ngrx/entity';
 
 export const LoadRoles = createAction(
   '[Role List Page] Load Roles '

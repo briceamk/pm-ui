@@ -1,1 +1,12 @@
-<p>charge-form-view works!</p>
+<pm-charge-form
+  [error]="error$ | async"
+  [charge]="charge$ | async"
+  [chargeEntities]="chargeEntities$ | async"
+  [loading]="loading$ | async"
+  (create)="onCreate($event)"
+  (update)="onUpdate($event)"
+  (removes)="onRemoves($event)"
+  (navigate)="onNavigate($event)"
+>
+
+</pm-charge-form>

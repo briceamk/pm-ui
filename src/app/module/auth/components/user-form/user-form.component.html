@@ -1,5 +1,4 @@
 <form [formGroup]="form"  fxLayout="column" fxLayoutGap="20px">
-  <h2>{{this.form.get('roleDtos').value | json}}</h2>
   <pm-form-action  fxFlex
                    (save)="onSave($event)"
                    (add)="onAdd($event)"
@@ -54,14 +53,14 @@
       </mat-form-field>
       <ng-select fxFlex
                  bindLabel="name"
-                 placeholder="Roles"
+                 placeholder="Permissions"
                  appendTo="body"
                  multiple="true"
                  [searchable]="true"
                  [clearable]="true"
-                 formControlName="roleDtos">
-        <ng-option [value]="role"  *ngFor="let role of roles">
-          {{role.name}}
+                 formControlName="permissionDtos">
+        <ng-option [value]="permission"  *ngFor="let permission of permissions">
+          {{permission.name}}
         </ng-option>
       </ng-select>
 

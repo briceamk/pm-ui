@@ -1,14 +1,11 @@
-import {User} from '@module/auth/models';
-import {Workflow} from '@module/organization/models/workflow';
 import {Company} from '@module/company/models';
+import {WorkflowInstance} from '@module/organization/models/workflow-instance';
 
 export interface CostCenter {
   id: string;
   code: string;
   name: string;
   externalId: string;
-  userDtos: User[];
-  workflowDtos: Workflow[];
-  functionDtos: Function[];
+  workflowInstanceDtos: WorkflowInstance[];
   companyDto: Company;
 }

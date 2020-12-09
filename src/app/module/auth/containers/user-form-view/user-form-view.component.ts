@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Role, User} from '@module/auth/models';
+import {Permission, User} from '@module/auth/models';
 import {Store} from '@ngrx/store';
 import * as fromStore from '@module/auth/store';
 import * as fromRoot from '@app/store';
@@ -14,7 +14,7 @@ import * as fromRoot from '@app/store';
 export class UserFormViewComponent implements OnInit {
 
   user$: Observable<User>;
-  roles$: Observable<Role[]>;
+  permissions$: Observable<Permission[]>;
   userEntities$: Observable<{[id: string]: User}>;
   error$: Observable<any>;
   loading$: Observable<boolean>;
@@ -25,7 +25,7 @@ export class UserFormViewComponent implements OnInit {
     this.loading$ = this._store.select(fromStore.selectUserLoading);
     this.error$ = this._store.select(fromStore.selectUserErrorMsg);
     this.user$ = this._store.select(fromStore.selectSelectedUser);
-    this.roles$ = this._store.select(fromStore.selectAllRoles);
+    this.permissions$ = this._store.select(fromStore.selectAllPermissions);
     this.userEntities$ = this._store.select(fromStore.selectUserEntities);
   }
 

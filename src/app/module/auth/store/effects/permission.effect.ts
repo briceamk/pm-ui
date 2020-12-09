@@ -8,30 +8,30 @@ import { ToastrService } from 'ngx-toastr';
 
 
 import * as fromRoot from '@store/index';
-import * as roleActions from '@module/auth/store//actions/role.action';
+import * as permissionActions from '@module/auth/store/actions/permission.action';
 import * as fromServices from '@module/auth/services';
-import { Role } from '@module/auth/models';
+import { Permission } from '@module/auth/models';
 
 
 @Injectable()
-export class RoleEffect {
+export class PermissionEffect {
   constructor(
     private _actions$: Actions,
-    private _roleService: fromServices.RoleService,
+    private _permissionService: fromServices.PermissionService,
     private _toastr: ToastrService
   ) {}
 
-  loadRoles$ = createEffect(() =>
+  loadPermissions$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(roleActions.LoadRoles),
+      ofType(permissionActions.LoadPermissions),
       exhaustMap(() =>
-        this._roleService.findAll().pipe(
-          map((roles: any) =>
-            roleActions.LoadRolesSuccess({ roles: roles['content'] as Role[]})
+        this._permissionService.findAll().pipe(
+          map((permissions: any) =>
+            permissionActions.LoadPermissionsSuccess({ permissions: permissions['content'] as Permission[]})
           ),
           catchError((error: any) =>
             of(
-              roleActions.LoadRolesFail({
+              permissionActions.LoadPermissionsFail({
                 errorMsg: error.error
               })
             )
@@ -41,20 +41,20 @@ export class RoleEffect {
     )
   );
 
-  createRole$ = createEffect(() =>
+  createPermission$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(roleActions.CreateRole),
-      mergeMap(({ role }) =>
-        this._roleService.create(role).pipe(
-          map((newRole: Role) =>
-            roleActions.CreateRoleSuccess({ role: newRole })
+      ofType(permissionActions.CreatePermission),
+      mergeMap(({ permission }) =>
+        this._permissionService.create(permission).pipe(
+          map((newPermission: Permission) =>
+            permissionActions.CreatePermissionSuccess({ permission: newPermission })
           ),
           tap(() => {
             this._toastr.success('Utilisateur crée correctement', 'PM');
           }),
           catchError((error: any) =>
             of(
-              roleActions.CreateRoleFail({
+              permissionActions.CreatePermissionFail({
                 errorMsg: error.error
               })
             )
@@ -64,25 +64,25 @@ export class RoleEffect {
     )
   );
 
-  createRoleSuccess$ = createEffect(() =>
+  createPermissionSuccess$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(roleActions.CreateRoleSuccess),
+      ofType(permissionActions.CreatePermissionSuccess),
       map(action => {
         return fromRoot.GO({
-          path: ['/auth/roles/details', action.role.id]
+          path: ['/auth/permissions/details', action.permission.id]
         });
       })
     )
   );
 
-  updateRole$ = createEffect(() =>
+  updatePermission$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(roleActions.UpdateRole),
+      ofType(permissionActions.UpdatePermission),
       exhaustMap(action =>
-        this._roleService.update(action.role).pipe(
-          map((role: Role) =>
-            roleActions.UpdateRoleSuccess({
-              role: { id: role.id, changes: role }
+        this._permissionService.update(action.permission).pipe(
+          map((permission: Permission) =>
+            permissionActions.UpdatePermissionSuccess({
+              permission: { id: permission.id, changes: permission }
             })
           ),
           tap(() => {
@@ -93,7 +93,7 @@ export class RoleEffect {
           }),
           catchError((error: any) =>
             of(
-              roleActions.UpdateRoleFail({
+              permissionActions.UpdatePermissionFail({
                 errorMsg: error.error
               })
             )
@@ -103,13 +103,13 @@ export class RoleEffect {
     )
   );
 
-  removeRole$ = createEffect(() =>
+  removePermission$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(roleActions.RemoveRole),
+      ofType(permissionActions.RemovePermission),
       exhaustMap(action =>
-        this._roleService.removes(action.ids).pipe(
+        this._permissionService.removes(action.ids).pipe(
           map((ids: string[]) =>
-            roleActions.RemoveRoleSuccess({ ids })
+            permissionActions.RemovePermissionSuccess({ ids })
           ),
           tap(() => {
             return this._toastr.error(
@@ -119,7 +119,7 @@ export class RoleEffect {
           }),
           catchError((error: any) =>
             of(
-              roleActions.RemoveRoleFail({
+              permissionActions.RemovePermissionFail({
                 errorMsg: error.error
               })
             )
@@ -129,24 +129,24 @@ export class RoleEffect {
     )
   );
 
-  removeRoleSuccess$ = createEffect(() =>
+  removePermissionSuccess$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(roleActions.RemoveRoleSuccess),
+      ofType(permissionActions.RemovePermissionSuccess),
       map(action => {
         return fromRoot.GO({
-          path: ['/auth/roles/new']
+          path: ['/auth/permissions/new']
         });
       })
     )
   );
 
-  removeRoles$ = createEffect(() =>
+  removePermissions$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(roleActions.RemoveRoles),
+      ofType(permissionActions.RemovePermissions),
       exhaustMap(action =>
-        this._roleService.removes(action.ids).pipe(
+        this._permissionService.removes(action.ids).pipe(
           map((ids: string[]) =>
-            roleActions.RemoveRolesSuccess({ ids })
+            permissionActions.RemovePermissionsSuccess({ ids })
           ),
           tap(() => {
             return this._toastr.error(
@@ -156,7 +156,7 @@ export class RoleEffect {
           }),
           catchError((error: any) =>
             of(
-              roleActions.RemoveRolesFail({
+              permissionActions.RemovePermissionsFail({
                 errorMsg: error.error
               })
             )

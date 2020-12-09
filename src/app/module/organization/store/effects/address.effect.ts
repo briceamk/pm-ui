@@ -7,7 +7,7 @@ import { map, exhaustMap, catchError, mergeMap, tap } from 'rxjs/operators';
 import * as fromRoot from '@store/index';
 import * as addressActions from '@module/organization/store/actions/address.action';
 import * as fromServices from '@module/organization/services';
-import { Address } from '@module/organization/models';
+import {Address, Image} from '@module/organization/models';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
@@ -144,9 +144,9 @@ export class AddressEffect {
       ofType(addressActions.SetAddressImage),
       exhaustMap(action =>
         this._addressService.upload(action.id, action.image, action.field).pipe(
-          map((addressMap: any) =>
+          map((address: Address) =>
             addressActions.SetAddressImageSuccess({
-              address: { id: addressMap['address'].id, changes: addressMap['address'] }, field: addressMap['field']
+              address: { id: address.id, changes: address}
             })
           ),
           tap(() => {
@@ -171,7 +171,7 @@ export class AddressEffect {
     this._actions$.pipe(
       ofType(addressActions.SetAddressImageSuccess),
       map(action => {
-        return addressActions.DownloadAddressImage({id: action.address.id as string, field: action.field});
+        return addressActions.DownloadAddressImage({id: action.address.id as string});
       })
     )
   );
@@ -180,9 +180,9 @@ export class AddressEffect {
     this._actions$.pipe(
       ofType(addressActions.DownloadAddressImage),
       exhaustMap(action =>
-        this._addressService.download(action.id, action.field).pipe(
-          map((imageMap: any) =>
-            addressActions.DownloadAddressImageSuccess({image: imageMap['image'], field: imageMap['field']})
+        this._addressService.download(action.id).pipe(
+          map((image: Image) =>
+            addressActions.DownloadAddressImageSuccess({image})
           ),
           catchError((error: any) =>
             of(

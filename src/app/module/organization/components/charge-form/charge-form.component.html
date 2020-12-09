@@ -1,1 +1,54 @@
-<p>charge-form works!</p>
+<form [formGroup]="form"  fxLayout="column" fxLayoutGap="20px">
+  <pm-form-action  fxFlex
+                   (save)="onSave($event)"
+                   (add)="onAdd($event)"
+                   (edit)="onEdit($event)"
+                   (removes)="onRemoves($event)"
+                   (cancel)="onCancel($event)"
+                   (first)="onNavigate($event)"
+                   (previous)="onNavigate($event)"
+                   (next)="onNavigate($event)"
+                   (last)="onNavigate($event)"
+                   [listViewLink]="listViewLink"
+                   [form]="form"
+                   [isValidForm]="form.valid"
+                   [disable]="isDisable"
+                   [data]="charge"
+                   [dataEntities]="chargeEntities"
+                   [title]="title"
+  ></pm-form-action>
+  <input type="hidden" formControlName="id" />
+
+  <div fxLayout="row" fxLayoutGap="10px">
+    <mat-card fxLayout="column" fxLayoutGap="10px" fxFlex>
+      <mat-form-field fxFlex>
+        <input matInput type="text" formControlName="code" placeholder="ID">
+        <mat-error *ngIf="required('code') || maximum('code')" class="text-danger">
+          <span *ngIf="required('code')">L'ID est obligatoire</span>
+          <span *ngIf="maximum('code')">L'ID doit  avoir 32 caractères maximum</span>
+        </mat-error>
+        <mat-error *ngIf="error && error.code">
+          {{error.code}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <input matInput type="text" formControlName="name" placeholder="Libellé">
+        <mat-error *ngIf="required('name') || maximum('name')" class="text-danger">
+          <span *ngIf="required('name')">Le libellé est obligatoire</span>
+          <span *ngIf="maximum('name')">Le libellé doit  avoir 64 caractères maximum</span>
+        </mat-error>
+        <mat-error *ngIf="error && error.name">
+          {{error.name}}
+        </mat-error>
+      </mat-form-field>
+    </mat-card>
+    <mat-card fxLayout="column"  fxFlex>
+      <div fxFlex></div>
+      <div fxLyout="row" fxLayoutAlign="space-between" fxFlex>
+        <mat-checkbox fxFlex labelPosition="after" formControlName="isInternational">Référence internationale obligatoire?</mat-checkbox>
+        <mat-checkbox fxFlex labelPosition="after" formControlName="active">Actif?</mat-checkbox>
+      </div>
+    </mat-card>
+  </div>
+
+</form>

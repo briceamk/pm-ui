@@ -127,7 +127,7 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor, OnCh
   }
 
   /**
-   * Function to call when the input is touched.
+   * Role to call when the input is touched.
    */
   onTouched() {}
 

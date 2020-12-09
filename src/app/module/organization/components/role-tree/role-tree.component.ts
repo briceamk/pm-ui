@@ -1,38 +1,38 @@
 import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
-import {Function} from '@module/organization/models';
+import {Role} from '@module/organization/models';
 import * as fromShare from '@app/share';
 import {ToastrService} from 'ngx-toastr';
 import {Title} from '@angular/platform-browser';
-import {functionLabelTypes} from '@module/organization/constants';
+import {roleLabelTypes} from '@module/organization/constants';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogConfig} from '@share/models';
 import {dialogConfig} from '@share/utils/dialog-config';
 import {DialogComponent} from '@share/components';
 
 @Component({
-  selector: 'pm-function-tree',
-  templateUrl: './function-tree.component.html',
-  styleUrls: ['./function-tree.component.scss']
+  selector: 'pm-role-tree',
+  templateUrl: './role-tree.component.html',
+  styleUrls: ['./role-tree.component.scss']
 })
-export class FunctionTreeComponent implements OnInit {
+export class RoleTreeComponent implements OnInit {
 
   @Input()error: any;
   @Input()loading: boolean;
-  @Input()functions: Function[];
+  @Input()roles: Role[];
   @Output()removes: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output()navigate: EventEmitter<string> = new EventEmitter<string>();
   columnSettings: fromShare.models.ColumnSetting[] = [];
   paginationSetting: fromShare.models.PaginationSetting = <fromShare.models.PaginationSetting>{};
   title: string;
-  newRoute = `/organization/functions/new`;
-  transformedFunctions: any[] = [];
+  newRoute = `/organization/roles/new`;
+  transformedRoles: any[] = [];
 
   constructor(private _toastr: ToastrService, private _title: Title, private _dialog: MatDialog) {
-    this._title.setTitle('Functions - PM');
+    this._title.setTitle('Roles - PM');
   }
 
   ngOnInit(): void {
-    this.title = "Functions";
+    this.title = "Roles";
     this.paginationSetting.enablePagination = true;
     this.paginationSetting.pageSize = 60;
     this.paginationSetting.pageSizeOptions = [60, 100, 200, 500];
@@ -62,18 +62,18 @@ export class FunctionTreeComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.transformedFunctions = this.functions.map(_function => this.transform(_function));
+    this.transformedRoles = this.roles.map(role => this.transform(role));
     if (this.error && 'message' in this.error) {
       this._toastr.error(this.error.message, 'PM');
       this.error = null;
     }
   }
 
-  onNavigate($event: Function) {
-    this.navigate.emit('/organization/functions/details/' + $event.id)
+  onNavigate($event: Role) {
+    this.navigate.emit('/organization/roles/details/' + $event.id)
   }
 
-  onRemoves($event: Function[]) {
+  onRemoves($event: Role[]) {
     const dialog: DialogConfig = {...dialogConfig,
       message: $event.length !==1? 'Confimer la suppression de ces rôles?': 'Confimer la suppression de cet rôle?'};
     const dialogRef = this._dialog.open(DialogComponent, {
@@ -87,14 +87,14 @@ export class FunctionTreeComponent implements OnInit {
     });
   }
 
-  transform(_function: Function): any {
-    _function = this.getTypeLabel(_function);
-    return {..._function, company: _function.companyDto.name}
+  transform(role: Role): any {
+    role = this.getTypeLabel(role);
+    return {...role, company: role.companyDto.name}
   }
 
-  getTypeLabel(_function: Function): Function {
-    let label = functionLabelTypes.find(functionLabelType =>Object.keys(functionLabelType)[0] === _function.type);
-    return {..._function, type: label[Object.keys(label)[0]]} as Function;
+  getTypeLabel(role: Role): Role {
+    let label = roleLabelTypes.find(roleLabelType =>Object.keys(roleLabelType)[0] === role.type);
+    return {...role, type: label[Object.keys(label)[0]]} as Role;
   }
 
 }

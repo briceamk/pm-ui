@@ -1,7 +1,7 @@
 import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import {Action, createReducer, on} from '@ngrx/store';
-import * as fromRole from '@module/auth/store/actions';
-import {Role} from '@module/auth/models';
+import * as fromRole from '@module/organization/store/actions';
+import {Role} from '@module/organization/models';
 
 export interface RoleState extends EntityState<Role> {
   loading?: boolean;
@@ -12,7 +12,7 @@ export interface RoleState extends EntityState<Role> {
 export const adapter: EntityAdapter<Role> = createEntityAdapter<Role>({
   selectId: model => model.id,
   sortComparer: (role1: Role, role2: Role): number =>
-    role1.code.localeCompare(role2.code)
+    role1.name.localeCompare(role2.name)
 });
 
 export const initialState: RoleState = adapter.getInitialState({
@@ -37,11 +37,23 @@ export const roleReducer = createReducer(
       errorMsg: null
     })
   ),
+  on(
+    fromRole.CreateRole,
+    fromRole.UpdateRole,
+    (state, { role }) => {
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+        errorMsg: null
+      };
+    }
+  ),
   on(fromRole.CreateRoleSuccess, (state, { role }) =>
     adapter.addOne(role, {
       ...state,
       loading: false,
-      loaded: false,
+      loaded: true,
       errorMsg: null
     })
   ),
@@ -49,7 +61,7 @@ export const roleReducer = createReducer(
     adapter.updateOne(role, {
       ...state,
       loading: false,
-      loaded: false,
+      loaded: true,
       errorMsg: null
     })
   ),
@@ -58,13 +70,13 @@ export const roleReducer = createReducer(
     fromRole.RemoveRoleSuccess,
     fromRole.RemoveRolesSuccess,
     (state, { ids }) => {
-    return adapter.removeMany(ids, {
-      ...state,
-      loading: false,
-      loaded: false,
-      errorMsg: null
-    });
-  }),
+      return adapter.removeMany(ids, {
+        ...state,
+        loading: false,
+        loaded: true,
+        errorMsg: null
+      });
+    }),
 
   on(
     fromRole.LoadRolesFail,

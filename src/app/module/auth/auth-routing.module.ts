@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import * as fromContainers from '@module/auth/containers';
-import {AuthGuard, RoleGuard, UserGuard} from '@module/auth/guards';
+import {AuthGuard, PermissionGuard, UserGuard} from '@module/auth/guards';
 
 const routes: Routes = [
   {
@@ -25,12 +25,12 @@ const routes: Routes = [
   {
     path: 'users/new',
     component: fromContainers.UserFormViewComponent,
-    canActivate: [AuthGuard, RoleGuard]
+    canActivate: [AuthGuard, PermissionGuard]
   },
   {
     path: 'users/details/:userId',
     component: fromContainers.UserFormViewComponent,
-    canActivate: [AuthGuard, UserGuard, RoleGuard]
+    canActivate: [AuthGuard, UserGuard, PermissionGuard]
   },
 ];
 

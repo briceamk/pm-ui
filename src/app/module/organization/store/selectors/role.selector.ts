@@ -1,17 +1,16 @@
-
 import { createSelector } from '@ngrx/store';
 import {Dictionary} from '@ngrx/entity';
 import {Params} from '@angular/router';
 
 import * as fromRoot from '@store/index';
-import * as fromFeature from '@module/auth/store/reducers';
-import * as fromRole from '@module/auth/store/reducers/role.reducer';
+import * as fromFeature from '@module/organization/store/reducers';
+import * as fromRole from '@module/organization/store/reducers/role.reducer';
 
-import { Role } from '@module/auth/models';
+import { Role } from '@module/organization/models';
 
 const selectRoleState = createSelector(
-  fromFeature.selectSecurityState,
-  (state: fromFeature.SecurityState) => state.roles
+  fromFeature.selectOrganizationState,
+  (state: fromFeature.OrganizationState) => state.roles
 );
 
 export const selectRoleEntities = createSelector(

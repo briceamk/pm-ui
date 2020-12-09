@@ -3,9 +3,9 @@ export const API_URL_ORGANIZATION =  `/api/organization`;
 
 
 export const addressLabelTypes = [
-  {INVOICE: 'Facturation'}, {SHIPPPING: 'Livraison'}
+  {INVOICING: 'Facturation'}, {SHIPPING: 'Livraison'}
 ];
 
-export const functionLabelTypes = [
+export const roleLabelTypes = [
   {DEPARTMENT: 'Département'}, {COST_CENTER: 'Centre de coût'}
 ];

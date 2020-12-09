@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {Role, User} from '@module/auth/models';
+import {Permission, User} from '@module/auth/models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import * as fromShare from '@app/share';
@@ -18,7 +18,7 @@ export class UserFormComponent implements OnInit, OnChanges {
   @Input() user: User;
   @Input() userEntities: { [id: string]: User };
   @Input() error: any;
-  @Input() roles: Role[];
+  @Input() permissions: Permission[];
   @Input() loading: boolean;
 
   @Output() navigate: EventEmitter<string> = new EventEmitter<string>();
@@ -31,8 +31,8 @@ export class UserFormComponent implements OnInit, OnChanges {
   hide = true;
   listViewLink = '/auth/users';
   title = 'Utilisateur';
-  placeholder =  'Selectionner les roles';
-  roleDtos$: Observable<any>;
+  placeholder =  'Selectionner les permissions';
+  permissionDtos$: Observable<any>;
 
   constructor(
     private _fb: FormBuilder,
@@ -89,17 +89,17 @@ export class UserFormComponent implements OnInit, OnChanges {
       accountNonLocked: [true],
       credentialsNonExpired: [true],
       enabled: [true],
-      roleDtos: [[], [Validators.required]],
+      permissionDtos: [[], [Validators.required]],
       companyDto: [{}]
     });
-    this.roleDtos$ = this.form.get("roleDtos").valueChanges.pipe(
+    this.permissionDtos$ = this.form.get("permissionDtos").valueChanges.pipe(
       startWith(null),
       switchMap((name) => {
         if (typeof name === "string") {
-          return of(this.roles).pipe(
+          return of(this.permissions).pipe(
             delay(300),
             map((response) =>
-              response.filter((role) => role.name.toLowerCase().includes(name))
+              response.filter((permission) => permission.name.toLowerCase().includes(name))
             )
           );
         }

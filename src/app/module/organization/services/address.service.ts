@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Address} from '@module/organization/models';
+import {Address, Image} from '@module/organization/models';
 import {Observable} from 'rxjs';
 import {API_URL_ORGANIZATION} from '@module/organization/constants';
 
@@ -27,7 +27,7 @@ export class AddressService {
 
   removes(ids: string[]): Observable<string[]> {
     return this._http.delete<string[]>(
-      API_URL_ORGANIZATION + `/address/many/${ids}`
+      API_URL_ORGANIZATION + `/addresses/many/${ids}`
     );
   }
 
@@ -41,11 +41,9 @@ export class AddressService {
     );
   }
 
-  download(id: string, field: string): Observable<any> {
-    const formData: FormData = new FormData();
-    formData.append('field', field);
-    return this._http.get<any>(
-      API_URL_ORGANIZATION + `/addresses/download/string/${id}`, {params: {'field': field}}
+  download(id: string): Observable<Image> {
+    return this._http.get<Image>(
+      API_URL_ORGANIZATION + `/addresses/download/string/${id}`
     );
   }
 }

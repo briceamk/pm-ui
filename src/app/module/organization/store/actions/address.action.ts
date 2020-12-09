@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Address } from '@module/organization/models'
+import {Address, Image} from '@module/organization/models';
 import { Update } from '@ngrx/entity';
 
 export const LoadAddresses= createAction(
@@ -68,12 +68,12 @@ export const RemoveAddressesFail = createAction(
 
 export const DownloadAddressImage = createAction(
   '[Address Form] Download Address  Image',
-  props<{ id: string, field: string }>()
+  props<{ id: string}>()
 );
 
 export const DownloadAddressImageSuccess = createAction(
   '[Address API] Download Address Image Success',
-  props<{ image: any, field: string }>()
+  props<{ image: Image }>()
 );
 
 export const DownloadAddressImageFail = createAction(
@@ -88,7 +88,7 @@ export const SetAddressImage = createAction(
 
 export const SetAddressImageSuccess = createAction(
   '[Address API] Set Address Image Success',
-  props<{ address: Update<Address>, field: string }>()
+  props<{ address: Update<Address> }>()
 );
 
 export const SetAddressImageFail = createAction(

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import * as fromContainers from './containers';
 import {AuthGuard} from '@module/auth/guards';
+import {AddressImageGuard} from '@module/organization/guards';
 
 const routes: Routes = [
   {
@@ -20,7 +21,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'departments/details/departmentId',
+    path: 'departments/details/:departmentId',
     component: fromContainers.DepartmentFormViewComponent,
     canActivate: [AuthGuard]
   },
@@ -35,7 +36,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'cost-centers/details/costCenterId',
+    path: 'cost-centers/details/:costCenterId',
     component: fromContainers.CostCenterFormViewComponent,
     canActivate: [AuthGuard]
   },
@@ -50,7 +51,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'charges/details/chargeId',
+    path: 'charges/details/:chargeId',
     component: fromContainers.ChargeFormViewComponent,
     canActivate: [AuthGuard]
   },
@@ -65,23 +66,23 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'workflows/details/workflowId',
+    path: 'workflows/details/:workflowId',
     component: fromContainers.WorkflowFormViewComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: 'functions',
-    component: fromContainers.FunctionTreeViewComponent,
+    path: 'roles',
+    component: fromContainers.RoleTreeViewComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: 'functions/new',
-    component: fromContainers.FunctionFormViewComponent,
+    path: 'roles/new',
+    component: fromContainers.RoleFormViewComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: 'functions/details/functionId',
-    component: fromContainers.FunctionFormViewComponent,
+    path: 'roles/details/:roleId',
+    component: fromContainers.RoleFormViewComponent,
     canActivate: [AuthGuard]
   },
   {
@@ -95,9 +96,9 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'addresses/details/addressId',
+    path: 'addresses/details/:addressId',
     component: fromContainers.AddressFormViewComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, AddressImageGuard]
   },
 ];
 

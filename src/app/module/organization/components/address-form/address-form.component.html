@@ -35,6 +35,11 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field  fxFlex>
+        <mat-select formControlName="type" placeholder="Type">
+          <mat-option *ngFor="let labelType of labelTypes"  [value]="getKey(labelType)"> <span>{{getLabel(labelType)}}</span> </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field  fxFlex>
         <input type="text" matInput placeholder="Titre" formControlName="title"/>
       </mat-form-field>
       <mat-form-field  fxFlex>
@@ -105,8 +110,8 @@
           <div fxLayout="row" fxLayoutGap="10px" fxFlex>
             <mat-card fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center" fxFlex="50%">
               <img
-                [src]="imageHeader"
-                [alt]="address && address.id? address.imageHeaderName : ''"
+                [src]="image !== null && image.imageHeader !== null? image.imageHeader: ''"
+                [alt]="address && address.id? address.imageHeaderName !== null? address.imageFooterName: '' : ''"
                 height="200px"
                 *ngIf="address && address.id !== '' && !loading"
                 fxFlex
@@ -122,7 +127,7 @@
               <button
                 fxFlex
                 mat-icon-button
-                matTooltip="Modifier l'image de profile"
+                matTooltip="Modifier l'image d'entête"
                 matTooltipPosition="right"
                 color="primary"
                 (click)="onChoosePicture('imageHeader')"
@@ -135,8 +140,8 @@
             </mat-card>
             <mat-card fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center" fxFlex="50%">
               <img
-                [src]="imageFooter"
-                [alt]="address && address.id? address.imageFooterName : ''"
+                [src]="image !== null && image.imageFooter !== null? image.imageFooter: ''"
+                [alt]="address && address.id? address.imageFooterName !== null? address.imageFooterName: '': ''"
                 height="200px"
                 *ngIf="address && address.id !== '' && !loading"
                 fxFlex
@@ -151,7 +156,7 @@
               <button
                 fxFlex
                 mat-icon-button
-                matTooltip="Modifier l'image de profile"
+                matTooltip="Modifier l'image du pied de page"
                 matTooltipPosition="right"
                 color="primary"
                 (click)="onChoosePicture('imageFooter')"

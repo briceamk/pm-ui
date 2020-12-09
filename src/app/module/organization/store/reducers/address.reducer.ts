@@ -1,14 +1,13 @@
 import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import {Action, createReducer, on} from '@ngrx/store';
 import * as fromActions from '@module/organization/store/actions';
-import {Address} from '@module/organization/models';
+import {Address, Image} from '@module/organization/models';
 
 export interface AddressState extends EntityState<Address> {
   loading?: boolean;
   loaded?: boolean;
   errorMsg?: any;
-  imageHeader: any;
-  imageFooter: any;
+  image: Image;
 }
 
 export const adapter: EntityAdapter<Address> = createEntityAdapter<Address>({
@@ -21,8 +20,7 @@ export const initialState: AddressState = adapter.getInitialState({
   loading: false,
   loaded: false,
   errorMsg: null,
-  imageHeader: null,
-  imageFooter: null
+  image: null
 });
 
 export const addressReducer = createReducer(
@@ -31,6 +29,7 @@ on(fromActions.LoadAddresses, state => ({
     ...state,
     loading: true,
     loaded: false,
+    image: null,
     errorMsg: null
   })),
 on(fromActions.LoadAddressesSuccess, (state, { addresses }) =>
@@ -38,6 +37,7 @@ on(fromActions.LoadAddressesSuccess, (state, { addresses }) =>
       ...state,
       loading: false,
       loaded: true,
+      image: null,
       errorMsg: null
     })
   ),
@@ -82,10 +82,9 @@ on(
       errorMsg: null
     })
   ),
-  on(fromActions.DownloadAddressImageSuccess, (state, { image, field }) => ({
+  on(fromActions.DownloadAddressImageSuccess, (state, { image }) => ({
     ...state,
-    imageHeader: field === 'header'? image: state.imageHeader,
-    imageFooter: field === 'footer'? image: state.imageFooter,
+    image,
     loading: false,
     loaded: true,
   })),
@@ -114,6 +113,7 @@ fromActions.RemoveAddressesFail,
         ...state,
         loading: false,
         loaded: false,
+        image: null,
         errorMsg
       };
     }
@@ -124,8 +124,7 @@ export function reducer(state: AddressState | undefined, action: Action) {
 }
 export const selectAddressLoading = (state: AddressState) => state.loading;
 export const selectAddressLoaded = (state: AddressState) => state.loaded;
-export const selectAddressImageHeader = (state: AddressState) => state.imageHeader;
-export const selectAddressImageFooter = (state: AddressState) => state.imageFooter;
+export const selectAddressImage = (state: AddressState) => state.image;
 export const selectAddressErrorMsg = (state: AddressState) => state.errorMsg;
 
 const {

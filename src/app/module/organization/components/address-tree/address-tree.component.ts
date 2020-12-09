@@ -49,6 +49,16 @@ export class AddressTreeComponent implements OnInit {
         disableSorting: false
       },
       {
+        name: 'city',
+        displayName: 'Ville',
+        disableSorting: false
+      },
+      {
+        name: 'country',
+        displayName: 'Pays',
+        disableSorting: false
+      },
+      {
         name: 'company',
         displayName: 'Sociéte',
         disableSorting: false

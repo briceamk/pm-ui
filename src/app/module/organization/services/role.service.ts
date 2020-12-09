@@ -1,33 +1,33 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Function} from '@module/organization/models';
+import {Role} from '@module/organization/models';
 import {Observable} from 'rxjs';
 import {API_URL_ORGANIZATION} from '@module/organization/constants';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FunctionService {
+export class RoleService {
 
   constructor(private _http: HttpClient) { }
 
-  create(_function: Function): Observable<Function> {
-    return this._http.post<Function>(API_URL_ORGANIZATION + `/functions`, _function);
+  create(role: Role): Observable<Role> {
+    return this._http.post<Role>(API_URL_ORGANIZATION + `/roles`, role);
   }
 
-  update(_function: Function): Observable<Function> {
-    return this._http.put<Function>(API_URL_ORGANIZATION + `/functions`, _function);
+  update(role: Role): Observable<Role> {
+    return this._http.put<Role>(API_URL_ORGANIZATION + `/roles`, role);
   }
 
   findAll(): Observable<any> {
     return this._http.get<any>(
-      API_URL_ORGANIZATION + `/functions`
+      API_URL_ORGANIZATION + `/roles`
     );
   }
 
   removes(ids: string[]): Observable<string[]> {
     return this._http.delete<string[]>(
-      API_URL_ORGANIZATION + `/_functions/many/${ids}`
+      API_URL_ORGANIZATION + `/roles/many/${ids}`
     );
   }
 }

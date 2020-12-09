@@ -1,10 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
-import {Address} from '@module/organization/models';
+import {Address, Image} from '@module/organization/models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Observable, of} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
 import {Title} from '@angular/platform-browser';
 import * as fromShare from '@app/share';
+import { addressLabelTypes } from '../../constants';
 
 @Component({
   selector: 'pm-address-form',
@@ -17,8 +18,7 @@ export class AddressFormComponent implements OnInit {
   @Input() addressEntities: { [id: string]: Address };
   @Input() error: any;
   @Input() loading: boolean;
-  @Input() imageHeader: any;
-  @Input() imageFooter: any;
+  @Input() image: Image;
 
   @Output() navigate: EventEmitter<string> = new EventEmitter<string>();
   @Output() create: EventEmitter<Address> = new EventEmitter<Address>();
@@ -34,6 +34,8 @@ export class AddressFormComponent implements OnInit {
   catalogs$: Observable<any>;
   categories$: Observable<any>;
   imageFiles: FileList;
+  labelTypes = addressLabelTypes;
+
 
 
   constructor(
@@ -54,8 +56,7 @@ export class AddressFormComponent implements OnInit {
       this.disableForm();
     }
     if(this.address === null || this.address === undefined ) {
-      this.imageHeader = null;
-      this.imageFooter = null;
+      this.image = null;
     }
 
     // we check if server return error and we print it to address
@@ -74,7 +75,7 @@ export class AddressFormComponent implements OnInit {
       trn: [ '', ],
       title: [ '', ],
       firstName: [ '', ],
-      fastName: [ '', ],
+      lastName: [ '', ],
       street: [ '', ],
       zip: [ '', ],
       email: ['', [Validators.email]],
@@ -108,8 +109,7 @@ export class AddressFormComponent implements OnInit {
   onAdd($event: any): void {
     this.form.enable();
     this.initForm();
-    this.imageFooter = null;
-    this.imageHeader = null;
+    this.image = null;
     this.navigate.emit(this.listViewLink + '/new');
   }
 
@@ -170,5 +170,13 @@ export class AddressFormComponent implements OnInit {
     this.imageFiles = undefined;
   }
 
+  // others
+  getKey(labels: any): string {
+    return Object.keys(labels)[0];
+  }
+
+  getLabel(value: any): string {
+    return value[Object.keys(value)[0]];
+  }
 
 }

@@ -20,7 +20,7 @@ export class AddressGuard implements CanActivate {
 
   checkStore(): Observable<boolean> {
     return this._store.select(fromStore.selectAddressLoaded).pipe(
-      tap(loaded => {
+      tap((loaded : boolean) => {
         if (!loaded) {
           this._store.dispatch(fromStore.LoadAddresses());
         }

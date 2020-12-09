@@ -45,15 +45,11 @@ export const selectAddressLoading = createSelector(
   fromAddress.selectAddressLoading
 );
 
-export const selectAddressImageHeader = createSelector(
+export const selectAddressImage = createSelector(
   selectAddressState,
-  fromAddress.selectAddressImageHeader
+  fromAddress.selectAddressImage
 );
 
-export const selectAddressImageFooter = createSelector(
-  selectAddressState,
-  fromAddress.selectAddressImageFooter
-);
 
 export const selectAddressErrorMsg = createSelector(
   selectAddressState,
