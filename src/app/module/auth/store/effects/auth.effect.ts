@@ -122,8 +122,9 @@ export class AuthEffects {
  init$ = createEffect(() =>
     defer(() => {
       let accessToken = localStorage.getItem('accessToken');
-      if (accessToken) {
-        const signInResponse: SignInResponse = this._authService.extractProfileDto(accessToken);
+      let refreshToken = localStorage.getItem('refreshToken');
+      if (accessToken && refreshToken) {
+        const signInResponse: SignInResponse = this._authService.extractProfileDto(accessToken, refreshToken);
         if(signInResponse != null)
           return of(authActions.RefreshCurrentProfile({ signInResponse }));
         return of(authActions.SignOut());

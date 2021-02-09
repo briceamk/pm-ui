@@ -7,6 +7,7 @@ export interface SignInResponse {
   city: string;
   mobile: string;
   accessToken: string;
+  refreshToken: string;
   companyId: string;
   companyName: string;
   tokenType: string;

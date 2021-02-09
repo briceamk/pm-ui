@@ -44,10 +44,14 @@ export class AuthService {
     if(localStorage.getItem('accessToken')) {
       localStorage.removeItem('accessToken');
     }
+    if(localStorage.getItem('refreshToken')) {
+      localStorage.removeItem('refreshToken');
+    }
     if(localStorage.getItem('loggedIn')) {
       localStorage.removeItem('loggedIn');
     }
     localStorage.setItem('accessToken', signInResponse.accessToken);
+    localStorage.setItem('refreshToken', signInResponse.refreshToken);
     localStorage.setItem('loggedIn', 'true');
     return of(true);
   }
@@ -85,12 +89,13 @@ export class AuthService {
     return of(false);
   }
 
-  extractProfileDto(accessToken: string): models.SignInResponse {
+  extractProfileDto(accessToken: string, refreshToken: string): models.SignInResponse {
     const tokenService = new JwtHelperService();
     if(tokenService.isTokenExpired(accessToken))
       return null;
     let signInResponse: models.SignInResponse = tokenService.decodeToken(accessToken) as models.SignInResponse;
     signInResponse.accessToken = accessToken;
+    signInResponse.refreshToken = refreshToken;
     return signInResponse;
   }
 }
